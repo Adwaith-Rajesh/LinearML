@@ -10,7 +10,7 @@ Well, I'm currently doing my bachelors in AI&DS so it just appropriate that I tr
 every machine learning algo I learn. And not just try these algorithms but also package
 them in such a way that I can use these Algo's instead of third-party ones.
 
-This package, even if I try for the next 10 years, will be anywhere close to the the
+This package, even if I try for the next 10 years, will not be anywhere close to the the
 third party packages. This is just a learning experience for me. This package is meant
 to grow with me as I learn new Machine Learning Algo or anything similar
 
