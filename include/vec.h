@@ -57,12 +57,12 @@ void Vec_display(Vec *vec);
 // Basic operations
 
 /*
-Add Vector v1 to v2 and returns v2
+Add Vector v2 to v1 and returns v1
 */
 Vec *Vec_add(Vec *v1, Vec *v2);
 
 /*
-Subtracts vector v1 from v2 and returns v2
+Subtracts vector v2 from v1 and returns v1
 */
 Vec *Vec_sub(Vec *v1, Vec *v2);
 
