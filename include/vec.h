@@ -54,4 +54,46 @@ vec - The vector to be displayed
 */
 void Vec_display(Vec *vec);
 
+// Basic operations
+
+/*
+Add Vector v1 to v2 and returns v2
+*/
+Vec *Vec_add(Vec *v1, Vec *v2);
+
+/*
+Subtracts vector v1 from v2 and returns v2
+*/
+Vec *Vec_sub(Vec *v1, Vec *v2);
+
+/*
+Multiply a scalar value to the vector and returns it
+*/
+Vec *Vec_scalar_multiply(Vec *vec, double scalar_val);
+
+/*
+Find the norm of a vector
+*/
+double *Vec_norm(Vec *vec);
+
+/*
+Find the dot product of two vectors
+*/
+double *Vec_dot_product(Vec *v1, Vec *v2);
+
+/*
+Find the cross product of a 3D vector
+*/
+Vec *Vec_cross_product(Vec *v1, Vec *v2);
+
+/*
+Convert the given vector to a unit vector
+*/
+Vec *Vec_to_unit(Vec *vec);
+
+/*
+Get the angle between two vectors
+*/
+float *Vec_get_angle(Vec *v1, Vec *v2);
+
 #endif
