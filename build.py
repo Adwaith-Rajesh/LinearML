@@ -23,34 +23,62 @@ SOFTWARE.
 '''
 
 
+import sys
 from subprocess import Popen
 from subprocess import PIPE
 from pathlib import Path
+
+
+CC = 'gcc'
+COM = f'{CC} -I./includes -I./src'
 
 
 def create_folder(path: str) -> None:
     Path(path).mkdir(parents=True, exist_ok=True)
 
 
+def clear_dirs():
+    run_command(f'rm -rf {" ".join(get_files("./build/out", ""))}')
+
+
 def run_command(cmd: str) -> int:
-    p = Popen(cmd, restore_signals=True, stdout=PIPE)
+    print(f'CMD: {cmd}')
+    p = Popen(cmd.split(), restore_signals=True, stdout=PIPE)
     p.wait()
     return p.returncode
 
 
-def get_c_files() -> list[str]:
-    return [str(path.absolute()) for path in Path('./src').rglob('*.c')]
+def get_files(path: str, ext: str) -> list[str]:
+    return [str(path.absolute()) for path in Path(path).rglob(f'*{ext}')]
 
 
-def crate_compilation_commands(paths: list[str]) -> list[str]:
-    return [(f'gcc {filename} -o ./build/out/{Path(filename).name.replace(".c", ".o")}')
+# compile each file to an object file
+def create_compilation_commands(paths: list[str]) -> list[str]:
+    return [(f'{COM} -fPIC -c {filename} -o ./build/out/{Path(filename).name.replace(".c", ".o")}')
             for filename in paths]
 
 
+def build_shared_object() -> int:
+    obj_files = get_files('./build/out', '.o')
+    build_cmd = f'{CC} -shared -fPIC -o liblinearml.so {" ".join(obj_files)}'
+    return run_command(build_cmd)
+
+
 def main() -> int:
-    # print(run_command('gcc'))
-    create_folder('./build')
-    print(crate_compilation_commands(get_c_files()))
+    clear_dirs()
+    create_folder('./build/out/')
+
+    commands = create_compilation_commands(get_files('./src', '.c'))
+
+    for command in commands:
+        rc = run_command(command)
+        if rc != 0:
+            print(f'Command failed: {command!r}', file=sys.stderr)
+            return rc
+
+    if build_shared_object() != 0:
+        print('Could not build shared object', file=sys.stderr)
+
     return 0
 
 
