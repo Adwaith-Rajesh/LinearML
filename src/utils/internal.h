@@ -40,8 +40,10 @@ extern char err_msg[ERROR_SIZE];
 #define set_errorf(fmt, ...) snprintf(err_msg, ERROR_SIZE, fmt, __VA_ARGS__)
 #define set_error(fmt) snprintf(err_msg, ERROR_SIZE, fmt)
 
-#define check_null(p)                                       \
-    set_errorf("Expected a Vec pointer got NULL (%s)", #p); \
-    if (p == NULL) return NULL;
+#define check_null(p)                                           \
+    if (p == NULL) {                                            \
+        set_errorf("Expected a Vec pointer got NULL (%s)", #p); \
+        return NULL;                                            \
+    }
 
 #endif

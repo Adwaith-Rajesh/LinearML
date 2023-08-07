@@ -52,7 +52,7 @@ Display the Vec in a nice manner.
 
 vec - The vector to be displayed
 */
-void Vec_display(Vec *vec);
+void Vec_print(Vec *vec);
 
 // Basic operations
 

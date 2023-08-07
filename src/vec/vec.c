@@ -18,8 +18,7 @@ void Vec_free(Vec *vec) {
     free(vec);
 }
 
-void Vec_display(Vec *vec) {
-    check_null(vec);
+void Vec_print(Vec *vec) {
     printf("(");
     if (vec != NULL) {
         for (int i = 0; i < vec->dim; i++) {
@@ -57,4 +56,12 @@ Vec *Vec_sub(Vec *v1, Vec *v2) {
         v1->elems[i] -= v2->elems[i];
     }
     return v1;
+}
+
+Vec *Vec_scalar_multiply(Vec *vec, double scalar_val) {
+    check_null(vec);
+    for (int i = 0; i < vec->dim; ++i) {
+        vec->elems[i] *= scalar_val;
+    }
+    return vec;
 }
