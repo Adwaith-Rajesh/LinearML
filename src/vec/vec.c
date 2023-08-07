@@ -1,5 +1,6 @@
 #include "vec.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -29,8 +30,8 @@ void Vec_print(Vec *vec) {
 }
 
 Vec *Vec_add(Vec *v1, Vec *v2) {
-    check_null(v1);
-    check_null(v2);
+    check_null(v1, NULL);
+    check_null(v2, NULL);
     if (v2->dim != v1->dim) {
         set_errorf("The vectors must be of the same dimensions, got %d and %d",
                    v1->dim, v2->dim);
@@ -44,8 +45,8 @@ Vec *Vec_add(Vec *v1, Vec *v2) {
 }
 
 Vec *Vec_sub(Vec *v1, Vec *v2) {
-    check_null(v1);
-    check_null(v2);
+    check_null(v1, NULL);
+    check_null(v2, NULL);
     if (v2->dim != v1->dim) {
         set_errorf("The vectors must be of the same dimensions, got %d and %d",
                    v1->dim, v2->dim);
@@ -59,9 +60,18 @@ Vec *Vec_sub(Vec *v1, Vec *v2) {
 }
 
 Vec *Vec_scalar_multiply(Vec *vec, double scalar_val) {
-    check_null(vec);
+    check_null(vec, NULL);
     for (int i = 0; i < vec->dim; ++i) {
         vec->elems[i] *= scalar_val;
     }
     return vec;
+}
+
+double Vec_norm(Vec *vec) {
+    check_null(vec, -1);
+    double sum = 0;
+    for (int i = 0; i < vec->dim; i++) {
+        sum += (vec->elems[i]) * (vec->elems[i]);
+    }
+    return sqrt(sum);
 }

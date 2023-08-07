@@ -30,7 +30,7 @@ from pathlib import Path
 
 
 CC = 'gcc'
-COM = f'{CC} -I./include -I./src -Wall -Wextra'
+COM = f'{CC} -I./include -I./src -Wall -Wextra -lm'
 
 
 def create_folder(path: str) -> None:

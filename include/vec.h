@@ -76,13 +76,15 @@ Vec *Vec_scalar_multiply(Vec *vec, double scalar_val);
 
 /*
 Find the norm of a vector
+
+Return -1 on error and sets the error msg
 */
-double *Vec_norm(Vec *vec);
+double Vec_norm(Vec *vec);
 
 /*
 Find the dot product of two vectors
 */
-double *Vec_dot_product(Vec *v1, Vec *v2);
+double Vec_dot_product(Vec *v1, Vec *v2);
 
 /*
 Find the cross product of a 3D vector
@@ -99,6 +101,6 @@ Vec *Vec_to_unit(Vec *vec);
 /*
 Get the angle between two vectors
 */
-float *Vec_get_angle(Vec *v1, Vec *v2);
+float Vec_get_angle(Vec *v1, Vec *v2);
 
 #endif
