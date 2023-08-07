@@ -58,16 +58,19 @@ void Vec_display(Vec *vec);
 
 /*
 Add Vector v2 to v1 and returns v1
+On error return NULL and sets the error message
 */
 Vec *Vec_add(Vec *v1, Vec *v2);
 
 /*
 Subtracts vector v2 from v1 and returns v1
+On error return NULL and sets the error message
 */
 Vec *Vec_sub(Vec *v1, Vec *v2);
 
 /*
 Multiply a scalar value to the vector and returns it
+On error return NULL and sets the error message
 */
 Vec *Vec_scalar_multiply(Vec *vec, double scalar_val);
 
@@ -83,11 +86,13 @@ double *Vec_dot_product(Vec *v1, Vec *v2);
 
 /*
 Find the cross product of a 3D vector
+On error return NULL and sets the error message
 */
 Vec *Vec_cross_product(Vec *v1, Vec *v2);
 
 /*
 Convert the given vector to a unit vector
+On error return NULL and sets the error message
 */
 Vec *Vec_to_unit(Vec *vec);
 

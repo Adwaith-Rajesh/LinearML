@@ -19,6 +19,7 @@ void Vec_free(Vec *vec) {
 }
 
 void Vec_display(Vec *vec) {
+    check_null(vec);
     printf("(");
     if (vec != NULL) {
         for (int i = 0; i < vec->dim; i++) {
@@ -29,9 +30,11 @@ void Vec_display(Vec *vec) {
 }
 
 Vec *Vec_add(Vec *v1, Vec *v2) {
+    check_null(v1);
+    check_null(v2);
     if (v2->dim != v1->dim) {
-        set_error("The vectors must be of the same dimensions, got %d and %d",
-                  v1->dim, v2->dim);
+        set_errorf("The vectors must be of the same dimensions, got %d and %d",
+                   v1->dim, v2->dim);
         return NULL;
     }
 
@@ -42,9 +45,11 @@ Vec *Vec_add(Vec *v1, Vec *v2) {
 }
 
 Vec *Vec_sub(Vec *v1, Vec *v2) {
+    check_null(v1);
+    check_null(v2);
     if (v2->dim != v1->dim) {
-        set_error("The vectors must be of the same dimensions, got %d and %d",
-                  v1->dim, v2->dim);
+        set_errorf("The vectors must be of the same dimensions, got %d and %d",
+                   v1->dim, v2->dim);
         return NULL;
     }
 

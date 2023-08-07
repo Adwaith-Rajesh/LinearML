@@ -37,6 +37,11 @@ to linearML goes here.
 #define ERROR_SIZE 4096
 extern char err_msg[ERROR_SIZE];
 
-#define set_error(fmt, ...) snprintf(err_msg, ERROR_SIZE, fmt, __VA_ARGS__)
+#define set_errorf(fmt, ...) snprintf(err_msg, ERROR_SIZE, fmt, __VA_ARGS__)
+#define set_error(fmt) snprintf(err_msg, ERROR_SIZE, fmt)
+
+#define check_null(p)                                       \
+    set_errorf("Expected a Vec pointer got NULL (%s)", #p); \
+    if (p == NULL) return NULL;
 
 #endif
