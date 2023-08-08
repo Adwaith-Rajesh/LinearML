@@ -75,3 +75,22 @@ double Vec_norm(Vec *vec) {
     }
     return sqrt(sum);
 }
+
+// TODO: implement a proper error propagation mechanism for Vec_dot_product
+
+double Vec_dot_product(Vec *v1, Vec *v2) {
+    check_null(v1, 0);  // FIXME: The dot product can result in a zero
+    check_null(v2, 0);
+
+    if (v1->dim != v2->dim) {
+        set_errorf("The vectors must be of the same dimensions, got %d and %d",
+                   v1->dim, v2->dim);
+        return 0;  // FIXME: Return Zero is not a proper indication of error
+    }
+
+    double product = 0.0;
+    for (int i = 0; i < v1->dim; i++) {
+        product += (v1->elems[i] * v2->elems[i]);
+    }
+    return product;
+}
