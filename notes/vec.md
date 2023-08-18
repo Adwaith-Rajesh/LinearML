@@ -70,9 +70,7 @@ $$
 
 #### Angle between vectors
 
-$
-Angle \ between two vectors \overrightarrow{a} \ and \  \overrightarrow{b} ,\  \theta
-$
+$Angle \ between two vectors \overrightarrow{a} \ and \  \overrightarrow{b} ,\  \theta$
 
 $$
 \theta = \cos^{-1} \left(

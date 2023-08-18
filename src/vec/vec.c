@@ -135,9 +135,7 @@ float Vec_get_angle(Vec *v1, Vec *v2) {
     // refer notes/vec.md
 
     double dot_p = Vec_dot(v1, v2);
-    printf("dot_p = %lf\n", dot_p);
     double n_p = Vec_norm(v1) * Vec_norm(v2);  // Norm Product
-    printf("n_p = %lf\n", n_p);
 
     return acos(dot_p / n_p);
 }
