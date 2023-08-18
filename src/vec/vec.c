@@ -123,11 +123,7 @@ Vec *Vec_to_unit(Vec *vec) {
     check_null(vec, NULL);
 
     // refer notes/vec.md
-    double norm = 0.0;
-    for (int i = 0; i < vec->dim; i++) {
-        norm += (vec->elems[i] * vec->elems[i]);
-    }
-    norm = sqrt(norm);
+    double norm = Vec_norm(vec);
 
     for (int i = 0; i < vec->dim; i++) {
         vec->elems[i] /= norm;
