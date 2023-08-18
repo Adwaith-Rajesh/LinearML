@@ -19,6 +19,11 @@ void Vec_free(Vec *vec) {
     free(vec);
 }
 
+void Vec_free_elem(Vec *vec) {
+    free(vec->elems);
+    free(vec);
+}
+
 void Vec_print(Vec *vec) {
     printf("(");
     if (vec != NULL) {
@@ -76,9 +81,9 @@ double Vec_norm(Vec *vec) {
     return sqrt(sum);
 }
 
-// TODO: implement a proper error propagation mechanism for Vec_dot_product
+// TODO: implement a proper error propagation mechanism for Vec_dot
 
-double Vec_dot_product(Vec *v1, Vec *v2) {
+double Vec_dot(Vec *v1, Vec *v2) {
     check_null(v1, 0);  // FIXME: The dot product can result in a zero
     check_null(v2, 0);
 
@@ -93,4 +98,29 @@ double Vec_dot_product(Vec *v1, Vec *v2) {
         product += (v1->elems[i] * v2->elems[i]);
     }
     return product;
+}
+
+Vec *Vec_cross(Vec *v1, Vec *v2) {
+    if (v1->dim != 3 || v2->dim != 3) {
+        set_error("One of v1, v2 is not 3D");
+        return NULL;
+    }
+
+    // refer notes/vec.md
+    double i = (v1->elems[1] * v2->elems[2]) - (v1->elems[2] * v2->elems[1]);
+    double j = (v1->elems[0] * v2->elems[2]) - (v1->elems[2] * v2->elems[0]);
+    double k = (v1->elems[0] * v2->elems[1]) - (v1->elems[1] * v2->elems[0]);
+
+    double *elems = malloc(sizeof(double) * 3);
+    elems[0] = i;
+    elems[1] = -j;
+    elems[2] = k;
+
+    return Vec_create(3, elems);
+}
+
+Vec *Vec_to_unit(Vec *vec) {
+}
+
+float Vec_get_angle(Vec *v1, Vec *v2) {
 }

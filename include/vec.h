@@ -48,6 +48,11 @@ vec - The vector to be freed
 void Vec_free(Vec *vec);
 
 /*
+Free the Vec along with the Vec->elem
+*/
+void Vec_free_elem(Vec *vec);
+
+/*
 Display the Vec in a nice manner.
 
 vec - The vector to be displayed
@@ -84,13 +89,14 @@ double Vec_norm(Vec *vec);
 /*
 Find the dot product of two vectors
 */
-double Vec_dot_product(Vec *v1, Vec *v2);
+double Vec_dot(Vec *v1, Vec *v2);
 
 /*
-Find the cross product of a 3D vector
+Find the cross product of a 3D vector and returns a new
+Vec which need to be freed
 On error return NULL and sets the error message
 */
-Vec *Vec_cross_product(Vec *v1, Vec *v2);
+Vec *Vec_cross(Vec *v1, Vec *v2);
 
 /*
 Convert the given vector to a unit vector
