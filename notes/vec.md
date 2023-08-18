@@ -10,15 +10,12 @@ $$
 \overrightarrow{b} = b_1i+ b_2j + b_3k
 $$
 
-$$
-\begin{align}
-
-\overrightarrow{a} \times \overrightarrow{b} & =
+$$ 
+\overrightarrow{a} \times \overrightarrow{b} =
 \begin{vmatrix}
 a_2 & a_3 \\
 b_2 & b_3
-\end{vmatrix}i
--
+\end{vmatrix}i-
 \begin{vmatrix}
 a_1 & a_3 \\
 b_1 & b_3
@@ -27,12 +24,11 @@ b_1 & b_3
 \begin{vmatrix}
 a_1 & a_2 \\
 b_1 & b_3
-\end{vmatrix}k \\
+\end{vmatrix}k
+$$
 
-
-& = (a_2b_3 - a_3b_2)i - (a_1b_3 - a_3b_1)j + (a_1b_2 - a_2b_1)k
-
-\end{align}
+$$
+\overrightarrow{a} \times \overrightarrow{b} = (a_2b_3 - a_3b_2)i - (a_1b_3 - a_3b_1)j + (a_1b_2 - a_2b_1)k
 $$
 
 Using Vec type
