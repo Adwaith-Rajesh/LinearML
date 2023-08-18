@@ -10,7 +10,7 @@ $$
 \overrightarrow{b} = b_1i+ b_2j + b_3k
 $$
 
-$$ 
+$$
 \overrightarrow{a} \times \overrightarrow{b} =
 \begin{vmatrix}
 a_2 & a_3 \\
@@ -39,7 +39,31 @@ v2 = Vec{.dim=3, .elems=[b1, b2, b3]}
 
 i = (v1.elems[1] * v2.elems[2]) - (v1.elems[2] * v2.elems[1])
 j = (v1.elems[0] * v2.elems[2]) - (v1.elems[2] * v2.elems[0])
-k = (v1.elems[0] * v2.elems[1]) - (v1.elems[1] * v2.elems[1])
+k = (v1.elems[0] * v2.elems[1]) - (v1.elems[1] * v2.elems[0])
 
 new_v = Vec{.dim=3, .elems=[i, -j, k]}
 ```
+
+#### Unit Vector
+
+$$
+\overrightarrow{a} = \langle \ a_1,\ a_2,\ a_3,\ \dots, \ a_n\ \rangle
+$$
+
+$$
+unit \ vector, \hat{a} = \frac{\overrightarrow{a}}{\vert a \vert}
+$$
+
+$$
+where, \  \vert a \vert = \sqrt{a_1^2 + a_2^2 + a_3^2 + \dots + a_n^2}
+$$
+
+$$
+\hat{a} = \langle \
+    \frac{a_1}{\vert a \vert},\
+    \frac{a_2}{\vert a \vert},\
+    \frac{a_3}{\vert a \vert},\
+    \dots,\
+    \frac{a_n}{\vert a \vert} \
+\rangle
+$$

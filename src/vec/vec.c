@@ -120,6 +120,19 @@ Vec *Vec_cross(Vec *v1, Vec *v2) {
 }
 
 Vec *Vec_to_unit(Vec *vec) {
+    check_null(vec, NULL);
+
+    // refer notes/vec.md
+    double norm = 0.0;
+    for (int i = 0; i < vec->dim; i++) {
+        norm += (vec->elems[i] * vec->elems[i]);
+    }
+    norm = sqrt(norm);
+
+    for (int i = 0; i < vec->dim; i++) {
+        vec->elems[i] /= norm;
+    }
+    return vec;
 }
 
 float Vec_get_angle(Vec *v1, Vec *v2) {
