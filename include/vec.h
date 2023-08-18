@@ -105,7 +105,7 @@ On error return NULL and sets the error message
 Vec *Vec_to_unit(Vec *vec);
 
 /*
-Get the angle between two vectors
+Get the angle between two vectors in radians
 */
 float Vec_get_angle(Vec *v1, Vec *v2);
 

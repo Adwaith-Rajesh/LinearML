@@ -111,7 +111,7 @@ Vec *Vec_cross(Vec *v1, Vec *v2) {
     double j = (v1->elems[0] * v2->elems[2]) - (v1->elems[2] * v2->elems[0]);
     double k = (v1->elems[0] * v2->elems[1]) - (v1->elems[1] * v2->elems[0]);
 
-    double *elems = malloc(sizeof(double) * 3);
+    double *elems = malloc_with_check(sizeof(double) * 3);
     elems[0] = i;
     elems[1] = -j;
     elems[2] = k;
@@ -132,4 +132,12 @@ Vec *Vec_to_unit(Vec *vec) {
 }
 
 float Vec_get_angle(Vec *v1, Vec *v2) {
+    // refer notes/vec.md
+
+    double dot_p = Vec_dot(v1, v2);
+    printf("dot_p = %lf\n", dot_p);
+    double n_p = Vec_norm(v1) * Vec_norm(v2);  // Norm Product
+    printf("n_p = %lf\n", n_p);
+
+    return acos(dot_p / n_p);
 }

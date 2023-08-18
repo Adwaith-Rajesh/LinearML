@@ -67,3 +67,15 @@ $$
     \frac{a_n}{\vert a \vert} \
 \rangle
 $$
+
+#### Angle between vectors
+
+$
+Angle \ between two vectors \overrightarrow{a} \ and \  \overrightarrow{b} ,\  \theta
+$
+
+$$
+\theta = \cos^{-1} \left(
+    \frac{\overrightarrow{a} \cdot \overrightarrow{b}}{\vert \overrightarrow{a} \vert \ \vert \overrightarrow{b} \vert}
+\right)
+$$
