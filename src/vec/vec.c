@@ -8,23 +8,23 @@
 #include "utils/internal.h"
 #include "utils/mem.h"
 
-Vec *Vec_create(int dim, double *elems) {
+Vec *vec_create(int dim, double *elems) {
     Vec *new_vec = malloc_with_check(sizeof(Vec));
     new_vec->dim = dim;
     new_vec->elems = elems;
     return new_vec;
 }
 
-void Vec_free(Vec *vec) {
+void vec_free(Vec *vec) {
     free(vec);
 }
 
-void Vec_free_elem(Vec *vec) {
+void vec_free_elem(Vec *vec) {
     free(vec->elems);
     free(vec);
 }
 
-void Vec_print(Vec *vec) {
+void vec_print(Vec *vec) {
     printf("(");
     if (vec != NULL) {
         for (int i = 0; i < vec->dim; i++) {
@@ -34,7 +34,7 @@ void Vec_print(Vec *vec) {
     puts(")");
 }
 
-Vec *Vec_add(Vec *v1, Vec *v2) {
+Vec *vec_add(Vec *v1, Vec *v2) {
     check_null(v1, NULL);
     check_null(v2, NULL);
     if (v2->dim != v1->dim) {
@@ -49,7 +49,7 @@ Vec *Vec_add(Vec *v1, Vec *v2) {
     return v1;
 }
 
-Vec *Vec_sub(Vec *v1, Vec *v2) {
+Vec *vec_sub(Vec *v1, Vec *v2) {
     check_null(v1, NULL);
     check_null(v2, NULL);
     if (v2->dim != v1->dim) {
@@ -64,7 +64,7 @@ Vec *Vec_sub(Vec *v1, Vec *v2) {
     return v1;
 }
 
-Vec *Vec_scalar_multiply(Vec *vec, double scalar_val) {
+Vec *vec_scalar_multiply(Vec *vec, double scalar_val) {
     check_null(vec, NULL);
     for (int i = 0; i < vec->dim; ++i) {
         vec->elems[i] *= scalar_val;
@@ -72,7 +72,7 @@ Vec *Vec_scalar_multiply(Vec *vec, double scalar_val) {
     return vec;
 }
 
-double Vec_norm(Vec *vec) {
+double vec_norm(Vec *vec) {
     check_null(vec, -1);
     double sum = 0;
     for (int i = 0; i < vec->dim; i++) {
@@ -81,9 +81,9 @@ double Vec_norm(Vec *vec) {
     return sqrt(sum);
 }
 
-// TODO: implement a proper error propagation mechanism for Vec_dot
+// TODO: implement a proper error propagation mechanism for vec_dot
 
-double Vec_dot(Vec *v1, Vec *v2) {
+double vec_dot(Vec *v1, Vec *v2) {
     check_null(v1, 0);  // FIXME: The dot product can result in a zero
     check_null(v2, 0);
 
@@ -100,7 +100,7 @@ double Vec_dot(Vec *v1, Vec *v2) {
     return product;
 }
 
-Vec *Vec_cross(Vec *v1, Vec *v2) {
+Vec *vec_cross(Vec *v1, Vec *v2) {
     if (v1->dim != 3 || v2->dim != 3) {
         set_error("One of v1, v2 is not 3D");
         return NULL;
@@ -116,14 +116,14 @@ Vec *Vec_cross(Vec *v1, Vec *v2) {
     elems[1] = -j;
     elems[2] = k;
 
-    return Vec_create(3, elems);
+    return vec_create(3, elems);
 }
 
-Vec *Vec_to_unit(Vec *vec) {
+Vec *vec_to_unit(Vec *vec) {
     check_null(vec, NULL);
 
     // refer notes/vec.md
-    double norm = Vec_norm(vec);
+    double norm = vec_norm(vec);
 
     for (int i = 0; i < vec->dim; i++) {
         vec->elems[i] /= norm;
@@ -131,11 +131,11 @@ Vec *Vec_to_unit(Vec *vec) {
     return vec;
 }
 
-float Vec_get_angle(Vec *v1, Vec *v2) {
+float vec_get_angle(Vec *v1, Vec *v2) {
     // refer notes/vec.md
 
-    double dot_p = Vec_dot(v1, v2);
-    double n_p = Vec_norm(v1) * Vec_norm(v2);  // Norm Product
+    double dot_p = vec_dot(v1, v2);
+    double n_p = vec_norm(v1) * vec_norm(v2);  // Norm Product
 
     return acos(dot_p / n_p);
 }

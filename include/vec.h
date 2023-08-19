@@ -20,15 +20,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef VEC_H
-#define VEC_H
+#ifndef vec_H
+#define vec_H
 
 typedef struct {
     int dim;
     double *elems;
 } Vec;
 
-#define Vec2(...) Vec_create(2, (double[]){__VA_ARGS__})
+#define Vec2(...) vec_create(2, (double[]){__VA_ARGS__})
 
 /*
 Allocates a new Vec pointer.
@@ -36,7 +36,7 @@ Allocates a new Vec pointer.
 dim - The dimension of the vector
 elems - Each scalar value that makes the N dimensional vector
 */
-Vec *Vec_create(int dim, double *elems);
+Vec *vec_create(int dim, double *elems);
 
 /*
 Frees the allocated Vec*
@@ -45,19 +45,19 @@ It will not free the elem
 
 vec - The vector to be freed
 */
-void Vec_free(Vec *vec);
+void vec_free(Vec *vec);
 
 /*
 Free the Vec along with the Vec->elem
 */
-void Vec_free_elem(Vec *vec);
+void vec_free_elem(Vec *vec);
 
 /*
 Display the Vec in a nice manner.
 
 vec - The vector to be displayed
 */
-void Vec_print(Vec *vec);
+void vec_print(Vec *vec);
 
 // Basic operations
 
@@ -65,48 +65,48 @@ void Vec_print(Vec *vec);
 Add Vector v2 to v1 and returns v1
 On error return NULL and sets the error message
 */
-Vec *Vec_add(Vec *v1, Vec *v2);
+Vec *vec_add(Vec *v1, Vec *v2);
 
 /*
 Subtracts vector v2 from v1 and returns v1
 On error return NULL and sets the error message
 */
-Vec *Vec_sub(Vec *v1, Vec *v2);
+Vec *vec_sub(Vec *v1, Vec *v2);
 
 /*
 Multiply a scalar value to the vector and returns it
 On error return NULL and sets the error message
 */
-Vec *Vec_scalar_multiply(Vec *vec, double scalar_val);
+Vec *vec_scalar_multiply(Vec *vec, double scalar_val);
 
 /*
 Find the norm of a vector
 
 Return -1 on error and sets the error msg
 */
-double Vec_norm(Vec *vec);
+double vec_norm(Vec *vec);
 
 /*
 Find the dot product of two vectors
 */
-double Vec_dot(Vec *v1, Vec *v2);
+double vec_dot(Vec *v1, Vec *v2);
 
 /*
 Find the cross product of a 3D vector and returns a new
 Vec which need to be freed
 On error return NULL and sets the error message
 */
-Vec *Vec_cross(Vec *v1, Vec *v2);
+Vec *vec_cross(Vec *v1, Vec *v2);
 
 /*
 Convert the given vector to a unit vector
 On error return NULL and sets the error message
 */
-Vec *Vec_to_unit(Vec *vec);
+Vec *vec_to_unit(Vec *vec);
 
 /*
 Get the angle between two vectors in radians
 */
-float Vec_get_angle(Vec *v1, Vec *v2);
+float vec_get_angle(Vec *v1, Vec *v2);
 
 #endif
