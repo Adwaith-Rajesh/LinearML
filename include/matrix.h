@@ -23,4 +23,50 @@ SOFTWARE.
 #ifndef VEC_H
 #define VEC_H
 
+typedef struct {
+    double *elems;
+    int rows;
+    int cols;
+} Mat;
+
+#define MAT_AT(m, r, c) (m)->elems[c + (m)->cols * r]
+
+// global variable that defines the number of decimal places printed
+extern int mat_print_prec;
+
+/*
+Set the printing precision for mat_print
+*/
+void set_mat_print_prec(int prec);
+
+/*
+Create a rows x cols matrix
+ */
+Mat *mat_create(int rows, int cols);
+
+/*
+Initialize a Mat* with the given elems
+ */
+Mat *mat_init(int rows, int cols, double *elems);
+
+/*
+Create a zero matrix of size rows x cols
+ */
+Mat *mat_create_zeros(int rows, int cols);
+
+/*
+Create a size x size identity matrix
+ */
+Mat *mat_identity(int size);
+
+/*
+Display the given matrix
+ */
+void mat_print(Mat *mat);
+
+/*
+Free a Mat
+ */
+void mat_free(Mat *mat);
+
 #endif
