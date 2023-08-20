@@ -8,6 +8,12 @@
 #include "utils/internal.h"
 #include "utils/mem.h"
 
+int vec_print_prec = 4;
+
+void set_vec_print_prec(int prec) {
+    vec_print_prec = prec;
+}
+
 Vec *vec_create(int dim, float *elems) {
     Vec *new_vec = malloc_with_check(sizeof(Vec));
     new_vec->dim = dim;
@@ -28,7 +34,7 @@ void vec_print(Vec *vec) {
     printf("(");
     if (vec != NULL) {
         for (int i = 0; i < vec->dim; i++) {
-            printf(" %lf ", vec->elems[i]);
+            printf(" %.*f ", vec_print_prec, vec->elems[i]);
         }
     }
     puts(")");

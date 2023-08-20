@@ -31,6 +31,11 @@ typedef struct {
 #define Vec2(...) vec_create(2, (float[]){__VA_ARGS__})
 
 /*
+Set the precision for printing the elements in the vector
+*/
+void set_vec_print_prec(int prec);
+
+/*
 Allocates a new Vec pointer.
 
 dim - The dimension of the vector
