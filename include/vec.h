@@ -25,10 +25,10 @@ SOFTWARE.
 
 typedef struct {
     int dim;
-    double *elems;
+    float *elems;
 } Vec;
 
-#define Vec2(...) vec_create(2, (double[]){__VA_ARGS__})
+#define Vec2(...) vec_create(2, (float[]){__VA_ARGS__})
 
 /*
 Allocates a new Vec pointer.
@@ -36,7 +36,7 @@ Allocates a new Vec pointer.
 dim - The dimension of the vector
 elems - Each scalar value that makes the N dimensional vector
 */
-Vec *vec_create(int dim, double *elems);
+Vec *vec_create(int dim, float *elems);
 
 /*
 Frees the allocated Vec*
@@ -77,19 +77,19 @@ Vec *vec_sub(Vec *v1, Vec *v2);
 Multiply a scalar value to the vector and returns it
 On error return NULL and sets the error message
 */
-Vec *vec_scalar_multiply(Vec *vec, double scalar_val);
+Vec *vec_scalar_multiply(Vec *vec, float scalar_val);
 
 /*
 Find the norm of a vector
 
 Return -1 on error and sets the error msg
 */
-double vec_norm(Vec *vec);
+float vec_norm(Vec *vec);
 
 /*
 Find the dot product of two vectors
 */
-double vec_dot(Vec *v1, Vec *v2);
+float vec_dot(Vec *v1, Vec *v2);
 
 /*
 Find the cross product of a 3D vector and returns a new

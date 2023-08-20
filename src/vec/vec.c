@@ -8,7 +8,7 @@
 #include "utils/internal.h"
 #include "utils/mem.h"
 
-Vec *vec_create(int dim, double *elems) {
+Vec *vec_create(int dim, float *elems) {
     Vec *new_vec = malloc_with_check(sizeof(Vec));
     new_vec->dim = dim;
     new_vec->elems = elems;
@@ -64,7 +64,7 @@ Vec *vec_sub(Vec *v1, Vec *v2) {
     return v1;
 }
 
-Vec *vec_scalar_multiply(Vec *vec, double scalar_val) {
+Vec *vec_scalar_multiply(Vec *vec, float scalar_val) {
     check_null(vec, NULL);
     for (int i = 0; i < vec->dim; ++i) {
         vec->elems[i] *= scalar_val;
@@ -72,18 +72,18 @@ Vec *vec_scalar_multiply(Vec *vec, double scalar_val) {
     return vec;
 }
 
-double vec_norm(Vec *vec) {
+float vec_norm(Vec *vec) {
     check_null(vec, -1);
-    double sum = 0;
+    float sum = 0;
     for (int i = 0; i < vec->dim; i++) {
         sum += (vec->elems[i]) * (vec->elems[i]);
     }
-    return sqrt(sum);
+    return sqrtf(sum);
 }
 
 // TODO: implement a proper error propagation mechanism for vec_dot
 
-double vec_dot(Vec *v1, Vec *v2) {
+float vec_dot(Vec *v1, Vec *v2) {
     check_null(v1, 0);  // FIXME: The dot product can result in a zero
     check_null(v2, 0);
 
@@ -93,7 +93,7 @@ double vec_dot(Vec *v1, Vec *v2) {
         return 0;  // FIXME: Return Zero is not a proper indication of error
     }
 
-    double product = 0.0;
+    float product = 0.0;
     for (int i = 0; i < v1->dim; i++) {
         product += (v1->elems[i] * v2->elems[i]);
     }
@@ -107,11 +107,11 @@ Vec *vec_cross(Vec *v1, Vec *v2) {
     }
 
     // refer notes/vec.md
-    double i = (v1->elems[1] * v2->elems[2]) - (v1->elems[2] * v2->elems[1]);
-    double j = (v1->elems[0] * v2->elems[2]) - (v1->elems[2] * v2->elems[0]);
-    double k = (v1->elems[0] * v2->elems[1]) - (v1->elems[1] * v2->elems[0]);
+    float i = (v1->elems[1] * v2->elems[2]) - (v1->elems[2] * v2->elems[1]);
+    float j = (v1->elems[0] * v2->elems[2]) - (v1->elems[2] * v2->elems[0]);
+    float k = (v1->elems[0] * v2->elems[1]) - (v1->elems[1] * v2->elems[0]);
 
-    double *elems = malloc_with_check(sizeof(double) * 3);
+    float *elems = malloc_with_check(sizeof(float) * 3);
     elems[0] = i;
     elems[1] = -j;
     elems[2] = k;
@@ -123,7 +123,7 @@ Vec *vec_to_unit(Vec *vec) {
     check_null(vec, NULL);
 
     // refer notes/vec.md
-    double norm = vec_norm(vec);
+    float norm = vec_norm(vec);
 
     for (int i = 0; i < vec->dim; i++) {
         vec->elems[i] /= norm;
@@ -134,8 +134,8 @@ Vec *vec_to_unit(Vec *vec) {
 float vec_get_angle(Vec *v1, Vec *v2) {
     // refer notes/vec.md
 
-    double dot_p = vec_dot(v1, v2);
-    double n_p = vec_norm(v1) * vec_norm(v2);  // Norm Product
+    float dot_p = vec_dot(v1, v2);
+    float n_p = vec_norm(v1) * vec_norm(v2);  // Norm Product
 
-    return acos(dot_p / n_p);
+    return acosf(dot_p / n_p);
 }
