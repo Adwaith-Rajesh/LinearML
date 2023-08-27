@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 #include "error.h"
-#include "utils/internal.h"
 #include "utils/mem.h"
 
 int vec_print_prec = 4;
@@ -41,11 +40,9 @@ void vec_print(Vec *vec) {
 }
 
 Vec *vec_add(Vec *v1, Vec *v2) {
-    check_null(v1, NULL);
-    check_null(v2, NULL);
     if (v2->dim != v1->dim) {
-        set_errorf("The vectors must be of the same dimensions, got %d and %d",
-                   v1->dim, v2->dim);
+        fprintf(stderr, "The vectors must be of the same dimensions, got %d and %d",
+                v1->dim, v2->dim);
         return NULL;
     }
 
@@ -56,11 +53,9 @@ Vec *vec_add(Vec *v1, Vec *v2) {
 }
 
 Vec *vec_sub(Vec *v1, Vec *v2) {
-    check_null(v1, NULL);
-    check_null(v2, NULL);
     if (v2->dim != v1->dim) {
-        set_errorf("The vectors must be of the same dimensions, got %d and %d",
-                   v1->dim, v2->dim);
+        fprintf(stderr, "The vectors must be of the same dimensions, got %d and %d",
+                v1->dim, v2->dim);
         return NULL;
     }
 
@@ -71,7 +66,6 @@ Vec *vec_sub(Vec *v1, Vec *v2) {
 }
 
 Vec *vec_scalar_multiply(Vec *vec, float scalar_val) {
-    check_null(vec, NULL);
     for (int i = 0; i < vec->dim; ++i) {
         vec->elems[i] *= scalar_val;
     }
@@ -79,7 +73,6 @@ Vec *vec_scalar_multiply(Vec *vec, float scalar_val) {
 }
 
 float vec_norm(Vec *vec) {
-    check_null(vec, -1);
     float sum = 0;
     for (int i = 0; i < vec->dim; i++) {
         sum += (vec->elems[i]) * (vec->elems[i]);
@@ -87,16 +80,10 @@ float vec_norm(Vec *vec) {
     return sqrtf(sum);
 }
 
-// TODO: implement a proper error propagation mechanism for vec_dot
-
 float vec_dot(Vec *v1, Vec *v2) {
-    check_null(v1, 0);  // FIXME: The dot product can result in a zero
-    check_null(v2, 0);
-
     if (v1->dim != v2->dim) {
-        set_errorf("The vectors must be of the same dimensions, got %d and %d",
-                   v1->dim, v2->dim);
-        return 0;  // FIXME: Return Zero is not a proper indication of error
+        fprintf(stderr, "The dimensions of the vector must be the same\n");
+        return 0;
     }
 
     float product = 0.0;
@@ -108,7 +95,7 @@ float vec_dot(Vec *v1, Vec *v2) {
 
 Vec *vec_cross(Vec *v1, Vec *v2) {
     if (v1->dim != 3 || v2->dim != 3) {
-        set_error("One of v1, v2 is not 3D");
+        fprintf(stderr, "Cannot only do cross product on vec that are 3D\n");
         return NULL;
     }
 
@@ -126,8 +113,6 @@ Vec *vec_cross(Vec *v1, Vec *v2) {
 }
 
 Vec *vec_to_unit(Vec *vec) {
-    check_null(vec, NULL);
-
     // refer notes/vec.md
     float norm = vec_norm(vec);
 
