@@ -1,0 +1,75 @@
+#!/bin/env buildme
+from pathlib import Path
+
+from buildme import CommandRunner
+from buildme import target, mkdir, rmdir, get_files_in_dir
+
+CC = 'gcc'
+C_FLAGS = '-Wall -Wextra -std=c11'
+C_LIBS = '-lm'
+C_INCLUDES = '-I./include -I./src'
+
+BUILD_DIR = './build'
+OUT_DIR = BUILD_DIR + '/out'
+LIB_DIR = BUILD_DIR + '/lib'
+
+SRC_DIR = './src'
+VEC_DIR = SRC_DIR + '/vec'
+MAT_DIR = SRC_DIR + '/mat'
+UTILS_DIR = SRC_DIR + '/utils'
+
+cr = CommandRunner(print_cmd_sep=False)
+
+
+def cc():
+    return f'{CC} {C_FLAGS} {C_INCLUDES} {C_LIBS} '
+
+
+def create_object_file(c_file: str):
+    o_file = c_file.split('/')[-1].replace('.c', '.o')
+    cr.run(f'{cc()} -fPIC -c {c_file} -o {OUT_DIR}/{o_file}')
+    return o_file
+
+
+@target(depends=['gen_o_files'])
+def liblinearml_so(_, __):
+    o_files = ' '.join(get_files_in_dir(f'{OUT_DIR}/*.o'))
+    cr.run(f'{cc()} -shared -fPIC {o_files} -o {LIB_DIR}/liblinearml.so')
+
+
+@target()
+def gen_o_files(_, __):
+    vec_c_files = get_files_in_dir(f'{VEC_DIR}/*.c')
+    mat_c_files = get_files_in_dir(f'{MAT_DIR}/*.c')
+    utils_c_files = get_files_in_dir(f'{UTILS_DIR}/*.c')
+
+    for c_file in vec_c_files + mat_c_files + utils_c_files:
+        create_object_file(c_file)
+
+
+@target()
+def init(opts, _):
+    mkdir(BUILD_DIR)
+    mkdir(OUT_DIR)
+    mkdir(LIB_DIR)
+
+    global C_FLAGS
+    global CC
+
+    if getattr(opts, 'release', None) is not None:
+        if opts.release == '1':
+            C_FLAGS += ' -O3'
+            return
+    C_FLAGS += ' -g'
+
+    if getattr(opts, 'cc', None) is not None:
+        CC = opts.cc
+
+
+@target()
+def clean(_, __):
+    rmdir('./build')
+
+
+@target(depends=['init', 'liblinearml_so'])
+def all(_, __): pass
