@@ -24,7 +24,7 @@ SOFTWARE.
 #define VEC_H
 
 typedef struct {
-    double *elems;
+    float *elems;
     int rows;
     int cols;
 } Mat;
@@ -43,11 +43,6 @@ void set_mat_print_prec(int prec);
 Create a rows x cols matrix
  */
 Mat *mat_create(int rows, int cols);
-
-/*
-Initialize a Mat* with the given elems
- */
-Mat *mat_init(int rows, int cols, double *elems);
 
 /*
 Create a zero matrix of size rows x cols
