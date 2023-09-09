@@ -43,6 +43,19 @@ Mat *mat_create_zeros(int rows, int cols) {
     return new_mat;
 }
 
+Mat *mat_identity(int size) {
+    Mat *new_mat = malloc_with_check(sizeof(Mat));
+    new_mat->elems = malloc_with_check(sizeof(float) * size * size);
+    new_mat->rows = size;
+    new_mat->cols = size;
+    _set_zeros(new_mat->elems, size * size);
+
+    for (int i = 0; i < size; i++) {
+        MAT_AT(new_mat, i, i) = 1.0f;
+    }
+    return new_mat;
+}
+
 void mat_free(Mat *mat) {
     if (mat == NULL) return;
     free(mat->elems);
