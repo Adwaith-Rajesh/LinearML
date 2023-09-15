@@ -41,27 +41,53 @@ void set_mat_print_prec(int prec);
 
 /*
 Create a rows x cols matrix
- */
+*/
 Mat *mat_create(int rows, int cols);
 
 /*
 Create a zero matrix of size rows x cols
- */
+*/
 Mat *mat_create_zeros(int rows, int cols);
 
 /*
 Create a size x size identity matrix
- */
+*/
 Mat *mat_identity(int size);
 
 /*
 Display the given matrix
- */
+*/
 void mat_print(Mat *mat);
 
 /*
 Free a Mat
- */
+*/
 void mat_free(Mat *mat);
+
+/*
+Add two Mat of the same dimension
+
+Adds mat2 to mat1 and returns mat1
+*/
+Mat mat_add(Mat *mat1, Mat *mat2);
+
+/*
+Subtract two Mat of the same dimension
+
+Subtract mat2 from mat1 and returns mat1
+*/
+Mat mat_sub(Mat *mat1, Mat *mat2);
+
+/*
+Multiplies mat1 and mat2 and returns a new Mat
+
+you need to free the new Mat
+*/
+Mat mat_mul(Mat *mat1, Mat *mat2);
+
+/*
+Returns a new matrix that is the transpose of the given mat
+*/
+Mat mat_transpose(Mat *mat);
 
 #endif
