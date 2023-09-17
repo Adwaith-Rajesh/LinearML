@@ -124,3 +124,45 @@ Mat *mat_transpose(Mat *mat) {
     }
     return new_mat;
 }
+
+float mat_det(Mat *mat) {
+    if (mat == NULL) {
+        fprintf(stderr, "mat_det: mat is NULL\n");
+        return 0.0f;
+    }
+
+    if (mat->rows != mat->cols) {
+        fprintf(stderr, "mat_det: mat is not a square matrix\n");
+        return 0.0f;
+    }
+
+    if (mat->cols == 1) {  // 1 x 1 matrix
+        return MAT_AT(mat, 0, 0);
+    }
+
+    if (mat->cols == 2) {  // 2 x 2 matrix
+        return MAT_AT(mat, 0, 0) * MAT_AT(mat, 1, 1) - MAT_AT(mat, 0, 1) * MAT_AT(mat, 1, 0);
+    }
+
+    float det = 0;
+    Mat *sub_mat = mat_create(mat->rows - 1, mat->cols - 1);
+
+    for (int col = 0; col < mat->cols; col++) {
+        int sub_row = 0;
+        for (int i = 1; i < mat->cols; i++) {
+            int sub_col = 0;
+            for (int j = 0; j < mat->cols; j++) {
+                if (j != col) {
+                    MAT_AT(sub_mat, sub_row, sub_col) = MAT_AT(mat, i, j);
+                    sub_col++;
+                }
+            }
+            sub_row++;
+        }
+        int sign = (col % 2 == 0) ? 1 : -1;
+        det += sign * MAT_AT(mat, 0, col) * mat_det(sub_mat);
+    }
+
+    mat_free(sub_mat);
+    return det;
+}

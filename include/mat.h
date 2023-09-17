@@ -92,4 +92,9 @@ you need to free the new matrix
 */
 Mat *mat_transpose(Mat *mat);
 
+/*
+Find the determinant of a matrix
+*/
+float mat_det(Mat *mat);
+
 #endif
