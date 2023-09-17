@@ -88,3 +88,13 @@ Mat *mat_sub(Mat *mat1, Mat *mat2) {
     }
     return mat1;
 }
+
+Mat *mat_transpose(Mat *mat) {
+    Mat *new_mat = mat_create(mat->cols, mat->rows);
+    for (int r = 0; r < mat->rows; r++) {
+        for (int c = 0; c < mat->cols; c++) {
+            MAT_AT(new_mat, c, r) = MAT_AT(mat, r, c);
+        }
+    }
+    return new_mat;
+}

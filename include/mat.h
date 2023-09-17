@@ -87,6 +87,8 @@ Mat *mat_mul(Mat *mat1, Mat *mat2);
 
 /*
 Returns a new matrix that is the transpose of the given mat
+
+you need to free the new matrix
 */
 Mat *mat_transpose(Mat *mat);
 
