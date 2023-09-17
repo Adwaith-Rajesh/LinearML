@@ -89,7 +89,33 @@ Mat *mat_sub(Mat *mat1, Mat *mat2) {
     return mat1;
 }
 
+Mat *mat_mul(Mat *mat1, Mat *mat2) {
+    if (mat1 == NULL || mat2 == NULL) {
+        return NULL;
+    }
+
+    if (mat1->cols != mat2->rows) {
+        return NULL;
+    }
+
+    Mat *res_mat = mat_create_zeros(mat1->rows, mat2->cols);
+
+    for (int r = 0; r < mat1->rows; r++) {
+        for (int c = 0; c < mat2->cols; c++) {
+            for (int k = 0; k < mat2->rows; k++) {
+                MAT_AT(res_mat, r, c) += MAT_AT(mat1, r, k) * MAT_AT(mat2, k, c);
+            }
+        }
+    }
+
+    return res_mat;
+}
+
 Mat *mat_transpose(Mat *mat) {
+    if (mat == NULL) {
+        return NULL;
+    }
+
     Mat *new_mat = mat_create(mat->cols, mat->rows);
     for (int r = 0; r < mat->rows; r++) {
         for (int c = 0; c < mat->cols; c++) {
