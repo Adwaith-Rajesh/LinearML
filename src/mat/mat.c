@@ -18,6 +18,11 @@ void set_mat_print_prec(int prec) {
 }
 
 void mat_print(Mat *mat) {
+    if (mat == NULL) {
+        fprintf(stderr, "The mat is NULL\n");
+        return;
+    }
+
     for (int i = 0; i < mat->rows; i++) {
         for (int j = 0; j < mat->cols; j++) {
             printf("%.*f ", mat_print_prec, MAT_AT(mat, i, j));
@@ -60,4 +65,26 @@ void mat_free(Mat *mat) {
     if (mat == NULL) return;
     free(mat->elems);
     free(mat);
+}
+
+Mat *mat_add(Mat *mat1, Mat *mat2) {
+    if (mat1->rows != mat2->rows && mat1->cols != mat2->cols) {
+        return NULL;
+    }
+
+    for (int i = 0; i < mat1->rows * mat2->rows; i++) {
+        mat1->elems[i] += mat2->elems[i];
+    }
+    return mat1;
+}
+
+Mat *mat_sub(Mat *mat1, Mat *mat2) {
+    if (mat1->rows != mat2->rows && mat1->cols != mat2->cols) {
+        return NULL;
+    }
+
+    for (int i = 0; i < mat1->rows * mat2->rows; i++) {
+        mat1->elems[i] -= mat2->elems[i];
+    }
+    return mat1;
 }
