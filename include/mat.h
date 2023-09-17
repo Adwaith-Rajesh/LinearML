@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef VEC_H
-#define VEC_H
+#ifndef MAT_H
+#define MAT_H
 
 typedef struct {
     float *elems;

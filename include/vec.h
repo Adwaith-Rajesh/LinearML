@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef vec_H
-#define vec_H
+#ifndef VEC_H
+#define VEC_H
 
 typedef struct {
     int dim;
