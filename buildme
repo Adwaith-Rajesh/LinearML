@@ -17,6 +17,12 @@ SRC_DIR = './src'
 VEC_DIR = SRC_DIR + '/vec'
 MAT_DIR = SRC_DIR + '/mat'
 UTILS_DIR = SRC_DIR + '/utils'
+ML_DIR = SRC_DIR + '/ml'
+STATS_DIR = SRC_DIR + '/stats'
+
+files_to_compile = [f'f:{VEC_DIR}/*.c', f'f:{MAT_DIR}/*.c', f'f:{UTILS_DIR}/*.c',
+                    f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c']
+
 
 cr = CommandRunner(print_cmd_sep=False)
 
@@ -37,7 +43,7 @@ def liblinearml_so(_, t):
     cr.run(f'{cc()} -shared -fPIC {o_files} -o {t.creates.files[0]}')
 
 
-@target(creates=[f'{OUT_DIR}/*.o'], depends=[f'f:{VEC_DIR}/*.c', f'f:{MAT_DIR}/*.c', f'f:{UTILS_DIR}/*.c'])
+@target(creates=[f'{OUT_DIR}/*.o'], depends=files_to_compile)
 def gen_o_files(_, t):
     for c_file in t.depends.files:
         create_object_file(c_file)
