@@ -223,3 +223,9 @@ Mat *mat_adj(Mat *mat) {
     mat_free(cof_mat);
     return cof_tran_mat;
 }
+
+Mat *mat_inverse(Mat *mat) {
+    // https://en.wikipedia.org/wiki/Cramer%27s_rule
+    Mat *adj_mat = mat_adj(mat);
+    return mat_scalar_mul(adj_mat, (1 / mat_det(mat)));
+}
