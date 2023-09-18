@@ -168,6 +168,11 @@ float mat_det(Mat *mat) {
 }
 
 float mat_cofactor(Mat *mat, int row, int col) {
+    if (mat == NULL) {
+        fprintf(stderr, "mat_cofactor: mat is NULL\n");
+        return 0.0f;
+    }
+
     Mat *sub_mat = mat_create(mat->rows - 1, mat->cols - 1);
 
     // add the values of the sub matrix
@@ -187,4 +192,27 @@ float mat_cofactor(Mat *mat, int row, int col) {
     float cofactor = sign * mat_det(sub_mat);
     mat_free(sub_mat);
     return cofactor;
+}
+
+Mat *mat_cofactor_matrix(Mat *mat) {
+    if (mat == NULL) {
+        fprintf(stderr, "mat_cofactor_matrix: mat is NULL\n");
+        return NULL;
+    }
+
+    Mat *cof_mat = mat_create(mat->rows, mat->cols);
+
+    for (int r = 0; r < mat->rows; r++) {
+        for (int c = 0; c < mat->cols; c++) {
+            MAT_AT(cof_mat, r, c) = mat_cofactor(mat, r, c);
+        }
+    }
+    return cof_mat;
+}
+
+Mat *mat_adj(Mat *mat) {
+    Mat *cof_mat = mat_cofactor_matrix(mat);
+    Mat *cof_tran_mat = mat_transpose(cof_mat);
+    mat_free(cof_mat);
+    return cof_tran_mat;
 }

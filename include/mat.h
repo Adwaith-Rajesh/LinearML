@@ -103,7 +103,21 @@ Find the cofactor of a given elements in Mat
 float mat_cofactor(Mat *mat, int row, int col);
 
 /*
-Return a new Mat that is the inverse of the given MAt
+Returns a new Mat, that is the cofactor matrix of the given Mat
+
+You need to free the returned Mat
+*/
+Mat *mat_cofactor_matrix(Mat *mat);
+
+/*
+Returns a new Mat that is the adjoint of the given Mat
+
+You need to free the returned Mat;
+*/
+Mat *mat_adj(Mat *mat);
+
+/*
+Return a new Mat that is the inverse of the given Mat
 
 You need to free the returned Mat
 */
