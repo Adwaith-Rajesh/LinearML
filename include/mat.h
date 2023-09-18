@@ -97,4 +97,16 @@ Find the determinant of a matrix
 */
 float mat_det(Mat *mat);
 
+/*
+Find the cofactor of a given elements in Mat
+*/
+float mat_cofactor(Mat *mat, int row, int col);
+
+/*
+Return a new Mat that is the inverse of the given MAt
+
+You need to free the returned Mat
+*/
+Mat *mat_inverse(Mat *mat);
+
 #endif

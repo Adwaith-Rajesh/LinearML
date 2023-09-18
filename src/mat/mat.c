@@ -166,3 +166,25 @@ float mat_det(Mat *mat) {
     mat_free(sub_mat);
     return det;
 }
+
+float mat_cofactor(Mat *mat, int row, int col) {
+    Mat *sub_mat = mat_create(mat->rows - 1, mat->cols - 1);
+
+    // add the values of the sub matrix
+    int s_row = 0;
+    for (int r = 0; r < mat->rows; r++) {
+        if (r == row) continue;
+        int s_col = 0;
+        for (int c = 0; c < mat->cols; c++) {
+            if (c == col) continue;
+            MAT_AT(sub_mat, s_row, s_col) = MAT_AT(mat, r, c);
+            s_col++;
+        }
+        s_row++;
+    }
+
+    float sign = ((row + col) % 2 == 0) ? 1.0f : -1.0f;
+    float cofactor = sign * mat_det(sub_mat);
+    mat_free(sub_mat);
+    return cofactor;
+}
