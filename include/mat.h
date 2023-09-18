@@ -86,6 +86,11 @@ you need to free the new Mat
 Mat *mat_mul(Mat *mat1, Mat *mat2);
 
 /*
+Multiplies a scalar value to the Mat and returns the given mat
+*/
+Mat *mat_scalar_mul(Mat *mat, float val);
+
+/*
 Returns a new matrix that is the transpose of the given mat
 
 you need to free the new matrix

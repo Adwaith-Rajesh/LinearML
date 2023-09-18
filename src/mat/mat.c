@@ -111,6 +111,13 @@ Mat *mat_mul(Mat *mat1, Mat *mat2) {
     return res_mat;
 }
 
+Mat *mat_scalar_mul(Mat *mat, float val) {
+    for (int i = 0; i < mat->cols * mat->rows; i++) {
+        mat->elems[i] *= val;
+    }
+    return mat;
+}
+
 Mat *mat_transpose(Mat *mat) {
     if (mat == NULL) {
         return NULL;
