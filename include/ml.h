@@ -27,6 +27,7 @@ typedef struct {
     // y = ax + b
     float slope;
     float intercept;
+    float rvalue;  // corelation value
 } LinearRegressionModel;
 
 /*
