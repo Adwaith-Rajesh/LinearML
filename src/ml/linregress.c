@@ -1,7 +1,8 @@
+#include "ml/linregress.h"
+
 #include <math.h>
 #include <stdio.h>
 
-#include "ml.h"
 #include "stats.h"
 #include "utils/mem.h"
 
@@ -52,7 +53,7 @@ float linregress_score(LinearRegressionModel *model, float *x_test, float *y_tes
     float y_mean = stats_mean(y_test, len);
 
     for (int i = 0; i < len; i++) {
-        float pred_val = ml_predict_linregress_model(model, x_test[i]);
+        float pred_val = linregress_predict(model, x_test[i]);
         ssr += (pred_val - y_test[i]) * (pred_val - y_test[i]);
         sst += (y_test[i] - y_mean) * (y_test[i] - y_mean);
     }
