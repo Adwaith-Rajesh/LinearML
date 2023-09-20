@@ -5,7 +5,7 @@
 #include "stats.h"
 #include "utils/mem.h"
 
-LinearRegressionModel *ml_init_linregress_model() {
+LinearRegressionModel *linregress_init() {
     LinearRegressionModel *new_model = malloc_with_check(sizeof(LinearRegressionModel));
     new_model->slope = 0.0f;
     new_model->intercept = 0.0f;
@@ -13,14 +13,14 @@ LinearRegressionModel *ml_init_linregress_model() {
     return new_model;
 }
 
-void ml_free_linregress_model(LinearRegressionModel *model) {
+void linregress_free(LinearRegressionModel *model) {
     if (model == NULL) {
         return;
     }
     free(model);
 }
 
-LinearRegressionModel *ml_fit_linregress_model(LinearRegressionModel *model, float *x, float *y, int len) {
+LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, int len) {
     // find the value of slope and intercept
 
     float mean_x = stats_mean(x, len);
@@ -37,7 +37,7 @@ LinearRegressionModel *ml_fit_linregress_model(LinearRegressionModel *model, flo
     return model;
 }
 
-float ml_predict_linregress_model(LinearRegressionModel *model, float x) {
+float linregress_predict(LinearRegressionModel *model, float x) {
     if (model == NULL) {
         fprintf(stderr, "ml_predict_linregress_model: model values is NULL");
         return 0.0f;
@@ -45,5 +45,16 @@ float ml_predict_linregress_model(LinearRegressionModel *model, float x) {
     return (model->slope * x) + model->intercept;
 }
 
-float ml_score_linregress_model(LinearRegressionModel *model, float *x_test, float *y_test) {
+float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, int len) {
+    float ssr = 0.0f;  // sum (predicted - target)^2  squared sum of residuals
+    float sst = 0.0f;  // sum (target - target_mean)^2  squared sum of targets
+
+    float y_mean = stats_mean(y_test, len);
+
+    for (int i = 0; i < len; i++) {
+        float pred_val = ml_predict_linregress_model(model, x_test[i]);
+        ssr += (pred_val - y_test[i]) * (pred_val - y_test[i]);
+        sst += (y_test[i] - y_mean) * (y_test[i] - y_mean);
+    }
+    return 1.0f - (ssr / sst);
 }

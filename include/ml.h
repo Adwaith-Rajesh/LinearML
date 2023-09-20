@@ -33,21 +33,26 @@ typedef struct {
 /*
 Initialize the simple linear regression model
 */
-LinearRegressionModel *ml_init_linregress_model();
+LinearRegressionModel *linregress_init();
 
 /*
 Free the linear regression model
 */
-void ml_free_linregress_model(LinearRegressionModel *model);
+void linregress_free(LinearRegressionModel *model);
 
 /*
 Fit the linear regression model with the values
 */
-LinearRegressionModel *ml_fit_linregress_model(LinearRegressionModel *model, float *x, float *y, int len);
+LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, int len);
 
 /*
 Predict new values with the linear regression model
 */
-float ml_predict_linregress_model(LinearRegressionModel *model, float x);
+float linregress_predict(LinearRegressionModel *model, float x);
+
+/*
+Score/test the linear regression model based on known x and y values
+*/
+float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, int len);
 
 #endif
