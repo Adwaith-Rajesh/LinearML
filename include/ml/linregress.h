@@ -55,4 +55,9 @@ Score/test the linear regression model based on known x and y values
 */
 float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, int len);
 
+// Mat version of all the funcs
+
+#define linregress_fit_mat(model, mat) linregress_fit(model, &mat->elems[0], &mat->elems[mat->rows], mat->rows)
+
+#define linregress_score_mat(model, mat) linregress_score(model, &mat->elems[0], &mat->elems[mat->rows], mat->rows)
 #endif
