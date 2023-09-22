@@ -1,0 +1,79 @@
+#!/bin/env python3
+
+"""
+parse a csv file and convert it into a format the linearML can understand
+ - csv_conv can get the required row from the CSV file and store it in a file
+    which can be later used in a C file as follows
+
+    float x[] = {#include "x_values.txt"};
+"""
+
+
+import argparse
+import csv
+import sys
+from dataclasses import dataclass
+
+
+@dataclass
+class CToFile:
+    col: str
+    filename: str
+    csv_file_index: int = -1  # the column index for col in the CSV file
+
+
+def col_to_file(ctof: str) -> CToFile:
+    if ':' not in ctof:
+        raise argparse.ArgumentTypeError('coltofile must of the format column_name:filename')
+
+    return CToFile(*(ctof.split(':')))
+
+
+def convert_csv_to_file(csv_file: str, col_to_files: list[CToFile], delimiter: str):
+    with open(csv_file, 'r', encoding='utf-8') as i_file:
+        csv_reader = csv.reader(i_file, delimiter=delimiter)
+        csv_header = next(csv_reader)
+
+        # get the indexes for all the required columns
+        for ctf in col_to_files:
+            try:
+                ctf.csv_file_index = csv_header.index(ctf.col)
+            except ValueError:
+                print(f'Unknown column name: {ctf.col}', file=sys.stderr)
+                sys.exit(1)
+
+        # create all the file handles
+        file_handles = [None] * len(col_to_files)
+        for ctf in col_to_files:
+            file_handles[ctf.csv_file_index] = open(ctf.filename, 'w')
+
+        # read the row in CSV file and convert
+        for row in csv_reader:
+            for ifx, f in enumerate(file_handles):
+                f.write(str(row[ifx]) + ',')
+
+        for f in file_handles:
+            f.close()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--delimiter', default='comma',
+                        choices=['tab', 'comma'],
+                        help='The delimiter used in the CSV file')
+    sub = parser.add_subparsers()
+
+    tofile = sub.add_parser('tofile')
+    tofile.add_argument('-i', '--input', required=True, help='The input CSV file')
+    tofile.add_argument('coltofile', nargs='*', type=col_to_file)
+
+    args = parser.parse_args()
+    print(args)
+
+    convert_csv_to_file(args.input, args.coltofile, ',' if args.delimiter == 'comma' else '\t')
+
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
