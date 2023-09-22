@@ -39,6 +39,14 @@ Mat *mat_create(int rows, int cols) {
     return new_mat;
 }
 
+Mat *mat_create_from_array(float *arr, int rows, int cols) {
+    Mat *new_mat = malloc_with_check(sizeof(Mat));
+    new_mat->elems = arr;
+    new_mat->rows = rows;
+    new_mat->cols = cols;
+    return new_mat;
+}
+
 Mat *mat_create_zeros(int rows, int cols) {
     Mat *new_mat = malloc_with_check(sizeof(Mat));
     new_mat->elems = malloc_with_check(sizeof(float) * rows * cols);
@@ -64,6 +72,11 @@ Mat *mat_identity(int size) {
 void mat_free(Mat *mat) {
     if (mat == NULL) return;
     free(mat->elems);
+    free(mat);
+}
+
+void mat_free_no_array(Mat *mat) {
+    if (mat == NULL) return;
     free(mat);
 }
 

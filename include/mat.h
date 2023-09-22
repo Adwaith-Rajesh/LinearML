@@ -45,6 +45,11 @@ Create a rows x cols matrix
 Mat *mat_create(int rows, int cols);
 
 /*
+Create a Mat from an existing array
+*/
+Mat *mat_create_from_array(float *arr, int rows, int cols);
+
+/*
 Create a zero matrix of size rows x cols
 */
 Mat *mat_create_zeros(int rows, int cols);
@@ -63,6 +68,11 @@ void mat_print(Mat *mat);
 Free a Mat
 */
 void mat_free(Mat *mat);
+
+/*
+Free mat with user created arr
+*/
+void mat_free_no_array(Mat *mat);
 
 /*
 Add two Mat of the same dimension
