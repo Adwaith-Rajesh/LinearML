@@ -68,7 +68,6 @@ def main() -> int:
     tofile.add_argument('coltofile', nargs='*', type=col_to_file)
 
     args = parser.parse_args()
-    print(args)
 
     convert_csv_to_file(args.input, args.coltofile, ',' if args.delimiter == 'comma' else '\t')
 
