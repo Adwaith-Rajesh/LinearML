@@ -1,5 +1,6 @@
 #include "stats.h"
 
+#include <float.h>
 #include <stdlib.h>
 
 float stats_mean(float *arr, int len) {
@@ -37,4 +38,24 @@ float stats_covar(float *arr1, float *arr2, int len) {
         sum += ((arr1[i] - arr1_mean) * (arr2[i] - arr2_mean));
     }
     return (float)(sum / (float)(len - 1));
+}
+
+float stats_max(float *arr, int len) {
+    float max_val = FLT_MIN;
+
+    for (int i = 0; i < len; i++) {
+        max_val = (arr[i] > max_val) ? arr[i] : max_val;
+    }
+
+    return max_val;
+}
+
+float stats_min(float *arr, int len) {
+    float min_val = FLT_MAX;
+
+    for (int i = 0; i < len; i++) {
+        min_val = (arr[i] < min_val) ? arr[i] : min_val;
+    }
+
+    return min_val;
 }

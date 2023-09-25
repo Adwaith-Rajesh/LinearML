@@ -38,4 +38,14 @@ Find the covariance of two matrix
 */
 float stats_covar(float *arr1, float *arr2, int len);
 
+/*
+Returns the max value in the array
+*/
+float stats_max(float *arr, int len);
+
+/*
+Returns the min value in the array
+*/
+float stats_min(float *arr, int len);
+
 #endif
