@@ -19,9 +19,10 @@ MAT_DIR = SRC_DIR + '/mat'
 UTILS_DIR = SRC_DIR + '/utils'
 ML_DIR = SRC_DIR + '/ml'
 STATS_DIR = SRC_DIR + '/stats'
+ARRAY_DIR = SRC_DIR + '/array'
 
 files_to_compile = [f'f:{VEC_DIR}/*.c', f'f:{MAT_DIR}/*.c', f'f:{UTILS_DIR}/*.c',
-                    f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c']
+                    f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c', f'f:{ARRAY_DIR}/*.c']
 
 
 cr = CommandRunner(print_cmd_sep=False)
