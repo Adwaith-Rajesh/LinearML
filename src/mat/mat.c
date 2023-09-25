@@ -1,5 +1,6 @@
 #include "mat.h"
 
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,15 +24,15 @@ void mat_print(Mat *mat) {
         return;
     }
 
-    for (int i = 0; i < mat->rows; i++) {
-        for (int j = 0; j < mat->cols; j++) {
+    for (size_t i = 0; i < mat->rows; i++) {
+        for (size_t j = 0; j < mat->cols; j++) {
             printf("%.*f ", mat_print_prec, MAT_AT(mat, i, j));
         }
         printf("\n");
     }
 }
 
-Mat *mat_create(int rows, int cols) {
+Mat *mat_create(size_t rows, size_t cols) {
     Mat *new_mat = malloc_with_check(sizeof(Mat));
     new_mat->elems = malloc_with_check(sizeof(float) * rows * cols);
     new_mat->rows = rows;
@@ -39,7 +40,7 @@ Mat *mat_create(int rows, int cols) {
     return new_mat;
 }
 
-Mat *mat_create_from_array(float *arr, int rows, int cols) {
+Mat *mat_create_from_array(float *arr, size_t rows, size_t cols) {
     Mat *new_mat = malloc_with_check(sizeof(Mat));
     new_mat->elems = arr;
     new_mat->rows = rows;
@@ -47,7 +48,7 @@ Mat *mat_create_from_array(float *arr, int rows, int cols) {
     return new_mat;
 }
 
-Mat *mat_create_zeros(int rows, int cols) {
+Mat *mat_create_zeros(size_t rows, size_t cols) {
     Mat *new_mat = malloc_with_check(sizeof(Mat));
     new_mat->elems = malloc_with_check(sizeof(float) * rows * cols);
     new_mat->rows = rows;
@@ -56,14 +57,14 @@ Mat *mat_create_zeros(int rows, int cols) {
     return new_mat;
 }
 
-Mat *mat_identity(int size) {
+Mat *mat_identity(size_t size) {
     Mat *new_mat = malloc_with_check(sizeof(Mat));
     new_mat->elems = malloc_with_check(sizeof(float) * size * size);
     new_mat->rows = size;
     new_mat->cols = size;
     _set_zeros(new_mat->elems, size * size);
 
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         MAT_AT(new_mat, i, i) = 1.0f;
     }
     return new_mat;
@@ -85,7 +86,7 @@ Mat *mat_add(Mat *mat1, Mat *mat2) {
         return NULL;
     }
 
-    for (int i = 0; i < mat1->rows * mat2->rows; i++) {
+    for (size_t i = 0; i < mat1->rows * mat2->rows; i++) {
         mat1->elems[i] += mat2->elems[i];
     }
     return mat1;
@@ -96,7 +97,7 @@ Mat *mat_sub(Mat *mat1, Mat *mat2) {
         return NULL;
     }
 
-    for (int i = 0; i < mat1->rows * mat2->rows; i++) {
+    for (size_t i = 0; i < mat1->rows * mat2->rows; i++) {
         mat1->elems[i] -= mat2->elems[i];
     }
     return mat1;
@@ -113,9 +114,9 @@ Mat *mat_mul(Mat *mat1, Mat *mat2) {
 
     Mat *res_mat = mat_create_zeros(mat1->rows, mat2->cols);
 
-    for (int r = 0; r < mat1->rows; r++) {
-        for (int c = 0; c < mat2->cols; c++) {
-            for (int k = 0; k < mat2->rows; k++) {
+    for (size_t r = 0; r < mat1->rows; r++) {
+        for (size_t c = 0; c < mat2->cols; c++) {
+            for (size_t k = 0; k < mat2->rows; k++) {
                 MAT_AT(res_mat, r, c) += MAT_AT(mat1, r, k) * MAT_AT(mat2, k, c);
             }
         }
@@ -125,7 +126,7 @@ Mat *mat_mul(Mat *mat1, Mat *mat2) {
 }
 
 Mat *mat_scalar_mul(Mat *mat, float val) {
-    for (int i = 0; i < mat->cols * mat->rows; i++) {
+    for (size_t i = 0; i < mat->cols * mat->rows; i++) {
         mat->elems[i] *= val;
     }
     return mat;
@@ -137,8 +138,8 @@ Mat *mat_transpose(Mat *mat) {
     }
 
     Mat *new_mat = mat_create(mat->cols, mat->rows);
-    for (int r = 0; r < mat->rows; r++) {
-        for (int c = 0; c < mat->cols; c++) {
+    for (size_t r = 0; r < mat->rows; r++) {
+        for (size_t c = 0; c < mat->cols; c++) {
             MAT_AT(new_mat, c, r) = MAT_AT(mat, r, c);
         }
     }
@@ -167,11 +168,11 @@ float mat_det(Mat *mat) {
     float det = 0;
     Mat *sub_mat = mat_create(mat->rows - 1, mat->cols - 1);
 
-    for (int col = 0; col < mat->cols; col++) {
-        int sub_row = 0;
-        for (int i = 1; i < mat->cols; i++) {
-            int sub_col = 0;
-            for (int j = 0; j < mat->cols; j++) {
+    for (size_t col = 0; col < mat->cols; col++) {
+        size_t sub_row = 0;
+        for (size_t i = 1; i < mat->cols; i++) {
+            size_t sub_col = 0;
+            for (size_t j = 0; j < mat->cols; j++) {
                 if (j != col) {
                     MAT_AT(sub_mat, sub_row, sub_col) = MAT_AT(mat, i, j);
                     sub_col++;
@@ -187,7 +188,7 @@ float mat_det(Mat *mat) {
     return det;
 }
 
-float mat_cofactor(Mat *mat, int row, int col) {
+float mat_cofactor(Mat *mat, size_t row, size_t col) {
     if (mat == NULL) {
         fprintf(stderr, "mat_cofactor: mat is NULL\n");
         return 0.0f;
@@ -196,11 +197,11 @@ float mat_cofactor(Mat *mat, int row, int col) {
     Mat *sub_mat = mat_create(mat->rows - 1, mat->cols - 1);
 
     // add the values of the sub matrix
-    int s_row = 0;
-    for (int r = 0; r < mat->rows; r++) {
+    size_t s_row = 0;
+    for (size_t r = 0; r < mat->rows; r++) {
         if (r == row) continue;
-        int s_col = 0;
-        for (int c = 0; c < mat->cols; c++) {
+        size_t s_col = 0;
+        for (size_t c = 0; c < mat->cols; c++) {
             if (c == col) continue;
             MAT_AT(sub_mat, s_row, s_col) = MAT_AT(mat, r, c);
             s_col++;
@@ -222,8 +223,8 @@ Mat *mat_cofactor_matrix(Mat *mat) {
 
     Mat *cof_mat = mat_create(mat->rows, mat->cols);
 
-    for (int r = 0; r < mat->rows; r++) {
-        for (int c = 0; c < mat->cols; c++) {
+    for (size_t r = 0; r < mat->rows; r++) {
+        for (size_t c = 0; c < mat->cols; c++) {
             MAT_AT(cof_mat, r, c) = mat_cofactor(mat, r, c);
         }
     }

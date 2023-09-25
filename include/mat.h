@@ -23,10 +23,12 @@ SOFTWARE.
 #ifndef MAT_H
 #define MAT_H
 
+#include <stddef.h>
+
 typedef struct {
     float *elems;
-    int rows;
-    int cols;
+    size_t rows;
+    size_t cols;
 } Mat;
 
 #define MAT_AT(m, r, c) (m)->elems[c + (m)->cols * r]
@@ -42,22 +44,22 @@ void set_mat_print_prec(int prec);
 /*
 Create a rows x cols matrix
 */
-Mat *mat_create(int rows, int cols);
+Mat *mat_create(size_t rows, size_t cols);
 
 /*
 Create a Mat from an existing array
 */
-Mat *mat_create_from_array(float *arr, int rows, int cols);
+Mat *mat_create_from_array(float *arr, size_t rows, size_t cols);
 
 /*
 Create a zero matrix of size rows x cols
 */
-Mat *mat_create_zeros(int rows, int cols);
+Mat *mat_create_zeros(size_t rows, size_t cols);
 
 /*
 Create a size x size identity matrix
 */
-Mat *mat_identity(int size);
+Mat *mat_identity(size_t size);
 
 /*
 Display the given matrix
@@ -115,7 +117,7 @@ float mat_det(Mat *mat);
 /*
 Find the cofactor of a given elements in Mat
 */
-float mat_cofactor(Mat *mat, int row, int col);
+float mat_cofactor(Mat *mat, size_t row, size_t col);
 
 /*
 Returns a new Mat, that is the cofactor matrix of the given Mat
