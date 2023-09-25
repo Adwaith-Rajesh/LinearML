@@ -23,29 +23,31 @@ SOFTWARE
 #ifndef STATS_H
 #define STATS_H
 
+#include <stddef.h>
+
 /*
 Find the mean of an array
 */
-float stats_mean(float *arr, int len);
+float stats_mean(float *arr, size_t len);
 
 /*
 Find the variance
 */
-float stats_var(float *arr, int len);
+float stats_var(float *arr, size_t len);
 
 /*
 Find the covariance of two matrix
 */
-float stats_covar(float *arr1, float *arr2, int len);
+float stats_covar(float *arr1, float *arr2, size_t len);
 
 /*
 Returns the max value in the array
 */
-float stats_max(float *arr, int len);
+float stats_max(float *arr, size_t len);
 
 /*
 Returns the min value in the array
 */
-float stats_min(float *arr, int len);
+float stats_min(float *arr, size_t len);
 
 #endif
