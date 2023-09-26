@@ -33,7 +33,7 @@ typedef struct {
     float *arr;
 } Array;
 
-#define ARR_AT(arr, idx) ((arr)->arr[idx])
+#define ARR_AT(i_arr, idx) ((i_arr)->arr[idx])
 
 /*
 Creates an array of the specified size and returns it
