@@ -23,6 +23,8 @@ SOFTWARE.
 #ifndef ML_H
 #define ML_H
 
+#include <stddef.h>
+
 typedef struct {
     // y = ax + b
     float slope;
@@ -43,7 +45,7 @@ void linregress_free(LinearRegressionModel *model);
 /*
 Fit the linear regression model with the values
 */
-LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, int len);
+LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, size_t len);
 
 /*
 Predict new values with the linear regression model
@@ -53,7 +55,7 @@ float linregress_predict(LinearRegressionModel *model, float x);
 /*
 Score/test the linear regression model based on known x and y values
 */
-float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, int len);
+float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, size_t len);
 
 // Mat version of all the funcs
 

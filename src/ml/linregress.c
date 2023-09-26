@@ -1,6 +1,7 @@
 #include "ml/linregress.h"
 
 #include <math.h>
+#include <stddef.h>
 #include <stdio.h>
 
 #include "stats.h"
@@ -21,7 +22,7 @@ void linregress_free(LinearRegressionModel *model) {
     free(model);
 }
 
-LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, int len) {
+LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, size_t len) {
     // find the value of slope and intercept
 
     float mean_x = stats_mean(x, len);
@@ -46,13 +47,13 @@ float linregress_predict(LinearRegressionModel *model, float x) {
     return (model->slope * x) + model->intercept;
 }
 
-float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, int len) {
+float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, size_t len) {
     float ssr = 0.0f;  // sum (predicted - target)^2  squared sum of residuals
     float sst = 0.0f;  // sum (target - target_mean)^2  squared sum of targets
 
     float y_mean = stats_mean(y_test, len);
 
-    for (int i = 0; i < len; i++) {
+    for (size_t i = 0; i < len; i++) {
         float pred_val = linregress_predict(model, x_test[i]);
         ssr += (pred_val - y_test[i]) * (pred_val - y_test[i]);
         sst += (y_test[i] - y_mean) * (y_test[i] - y_mean);
