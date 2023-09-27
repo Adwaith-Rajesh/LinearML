@@ -14,15 +14,13 @@ OUT_DIR = BUILD_DIR + '/out'
 LIB_DIR = BUILD_DIR + '/lib'
 
 SRC_DIR = './src'
-VEC_DIR = SRC_DIR + '/vec'
-MAT_DIR = SRC_DIR + '/mat'
+DS_DIR = SRC_DIR + '/ds'
 UTILS_DIR = SRC_DIR + '/utils'
 ML_DIR = SRC_DIR + '/ml'
 STATS_DIR = SRC_DIR + '/stats'
-ARRAY_DIR = SRC_DIR + '/array'
 
-files_to_compile = [f'f:{VEC_DIR}/*.c', f'f:{MAT_DIR}/*.c', f'f:{UTILS_DIR}/*.c',
-                    f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c', f'f:{ARRAY_DIR}/*.c']
+files_to_compile = [f'f:{UTILS_DIR}/*.c', f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c', f'f:{DS_DIR}/*.c']
+header_files = list(map(lambda x: f'f:{x}', get_files_in_dir('./include/**/*.h', recurse=True)))
 
 
 cr = CommandRunner(print_cmd_sep=False)
@@ -44,9 +42,11 @@ def liblinearml_so(_, t):
     cr.run(f'{cc()} -shared -fPIC {o_files} -o {t.creates.files[0]}')
 
 
-@target(creates=[f'{OUT_DIR}/*.o'], depends=files_to_compile)
+@target(creates=[f'{OUT_DIR}/*.o'], depends=files_to_compile + header_files)
 def gen_o_files(_, t):
     for c_file in t.depends.files:
+        if c_file.endswith('.h'):
+            continue
         create_object_file(c_file)
 
 
