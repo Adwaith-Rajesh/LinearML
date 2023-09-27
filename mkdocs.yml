@@ -1,0 +1,57 @@
+site_name: LinearML
+theme:
+  name: material
+  logo: assets/logo-circle.png
+  # favicon: assets/favicon.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+      primary: deep purple
+    - media: "(prefers-color-scheme: light)"
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+      primary: deep purple
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - LinearML: index.md
+  - Data Structure:
+    - Array: ds/array.md
+    - Matrix: ds/mat.md
+    - Vector: ds/vec.md
+  - Machine Learning:
+    - Linear Regression: ml/linregress.md
+
+repo_url: https://github.com/Adwaith-Rajesh/LinearML
+repo_name: Adwaith-Rajesh/LinearML
+
+extra:
+  social:
+   - icon: fontawesome/brands/github
+     link: https://github.com/Adwaith-Rajesh
+   - icon: fontawesome/brands/twitter
+     link: https://twitter.com/adwaith__rajesh
+   - icon: fontawesome/brands/discord
+     link: https://discord.gg/BxMbWzZe2Z
+   - icon: fontawesome/brands/linkedin
+     link: https://www.linkedin.com/in/adwaith-rajesh-517888204/
+
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
