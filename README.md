@@ -1,4 +1,4 @@
-![LinearML Logo](/docs/assets/linear%20ml%20banner.png)
+![LinearML Logo](/docs/assets/linear_ml_banner.png)
 
 A Linear Algebra and Machine Learning "Library" in C
 
