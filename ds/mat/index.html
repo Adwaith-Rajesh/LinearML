@@ -334,6 +334,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Matrix
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -343,6 +354,46 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    Structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-available-functions" class="md-nav__link">
+    1. Available functions.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-examples" class="md-nav__link">
+    2. Examples.
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -459,6 +510,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    Structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-available-functions" class="md-nav__link">
+    1. Available functions.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-examples" class="md-nav__link">
+    2. Examples.
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -475,7 +555,168 @@
   
 
 
-<h1 id="mat">mat</h1>
+<h1 id="mat">Mat</h1>
+<h4 id="structure">Structure</h4>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">elems</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">rows</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">cols</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">Mat</span><span class="p">;</span>
+</code></pre></div>
+<p>Internally the Matrix is 1D array where the values are stored in row major order.</p>
+<ul>
+<li>
+<h4 id="1-available-functions">1. Available functions.</h4>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">Create a rows x cols matrix</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_create</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">cols</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Create a Mat from an existing array</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_create_from_array</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">cols</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Create a zero matrix of size rows x cols</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_create_zeros</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">cols</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Create a size x size identity matrix</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_identity</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Display the given matrix</span>
+<span class="cm">*/</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">mat_printp</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">print_prec</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Free a Mat</span>
+<span class="cm">*/</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">mat_free</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Free mat with user created arr</span>
+<span class="cm">*/</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">mat_free_no_array</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Add two Mat of the same dimension</span>
+
+<span class="cm">Adds mat2 to mat1 and returns mat1</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_add</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat1</span><span class="p">,</span><span class="w"> </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat2</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Subtract two Mat of the same dimension</span>
+
+<span class="cm">Subtract mat2 from mat1 and returns mat1</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_sub</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat1</span><span class="p">,</span><span class="w"> </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat2</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Multiplies mat1 and mat2 and returns a new Mat</span>
+
+<span class="cm">you need to free the new Mat</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_mul</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat1</span><span class="p">,</span><span class="w"> </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat2</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Multiplies a scalar value to the Mat and returns the given mat</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_scalar_mul</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">val</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Returns a new matrix that is the transpose of the given mat</span>
+
+<span class="cm">you need to free the new matrix</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_transpose</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Find the determinant of a matrix</span>
+<span class="cm">*/</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">mat_det</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Find the cofactor of a given elements in Mat</span>
+<span class="cm">*/</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">mat_cofactor</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">col</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Returns a new Mat, that is the cofactor matrix of the given Mat</span>
+
+<span class="cm">You need to free the returned Mat</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_cofactor_matrix</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Returns a new Mat that is the adjoint of the given Mat</span>
+
+<span class="cm">You need to free the returned Mat;</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_adj</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Return a new Mat that is the inverse of the given Mat</span>
+
+<span class="cm">You need to free the returned Mat</span>
+<span class="cm">*/</span>
+<span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="nf">mat_inverse</span><span class="p">(</span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li>
+<h4 id="2-examples">2. Examples.</h4>
+</li>
+</ul>
+<p>Here is a simple example on finding the inverse of a matrix</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/mat.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">mat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mat_create</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">MAT_AT</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">    </span><span class="n">MAT_AT</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">MAT_AT</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">MAT_AT</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">mat_printp</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">adj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mat_adj</span><span class="p">(</span><span class="n">mat</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mat_print</span><span class="p">(</span><span class="n">adj</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">inv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mat_inverse</span><span class="p">(</span><span class="n">mat</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mat_printp</span><span class="p">(</span><span class="n">inv</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">mat_free</span><span class="p">(</span><span class="n">mat</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mat_free</span><span class="p">(</span><span class="n">adj</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mat_free</span><span class="p">(</span><span class="n">inv</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="go">  4.00000   7.00000</span>
+<span class="go">  2.00000   6.00000</span>
+
+<span class="go">  6.00   -7.00</span>
+<span class="go">  -2.00   4.00</span>
+
+<span class="go">  0.6000000   -0.7000000</span>
+<span class="go">  -0.2000000   0.4000000</span>
+</code></pre></div>
+<blockquote>
+<p>If you have any queries feel free to contact me through any of the socials given below</p>
+</blockquote>
 
 
 
