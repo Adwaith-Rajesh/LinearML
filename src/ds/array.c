@@ -31,12 +31,28 @@ void arr_init_free(Array *arr) {
     free(arr);
 }
 
-void arr_print(Array *arr) {
+void arr_printp(Array *arr, int print_prec) {
     if (arr == NULL) return;
-    for (size_t i = 0; i < arr->size; i++) {
-        printf("%f ", ARR_AT(arr, i));
+
+    printf("[ ");
+    if (arr->size <= 20) {
+        for (size_t i = 0; i < arr->size; i++) {
+            printf("%.*f ", print_prec, ARR_AT(arr, i));
+        }
+    } else {
+        // print rows of 15 values
+        int count = 0;
+        for (size_t i = 0; i < arr->size; i++) {
+            if (count == 15) {
+                printf("\n  ");
+                count = 0;
+            }
+            count++;
+            printf("%.*f ", print_prec, ARR_AT(arr, i));
+        }
     }
-    printf("\n");
+
+    printf("]\n");
 }
 
 Array *arr_map(Array *arr, ArrayMapFuncType fn) {

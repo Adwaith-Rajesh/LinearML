@@ -35,6 +35,8 @@ typedef struct {
 
 #define ARR_AT(i_arr, idx) ((i_arr)->arr[idx])
 
+#define arr_print(array) arr_printp(array, 2)
+
 /*
 Creates an array of the specified size and returns it
 
@@ -62,7 +64,7 @@ void arr_init_free(Array *arr);
 /*
 Display the given array
 */
-void arr_print(Array *arr);
+void arr_printp(Array *arr, int print_prec);
 
 typedef float (*ArrayMapFuncType)(float);
 
