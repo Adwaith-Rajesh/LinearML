@@ -314,6 +314,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Array
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -323,6 +334,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    Structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creating-a-simple-array" class="md-nav__link">
+    1. Creating a simple Array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-create-an-array-using-existing-c-array" class="md-nav__link">
+    2. Create an Array using existing C array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-changing-the-float-precision-during-printing" class="md-nav__link">
+    3. Changing the float precision during printing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-map-a-function-over-the-array" class="md-nav__link">
+    4. Map a function over the Array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-array-stats" class="md-nav__link">
+    5. Array stats
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -459,6 +544,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    Structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-creating-a-simple-array" class="md-nav__link">
+    1. Creating a simple Array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-create-an-array-using-existing-c-array" class="md-nav__link">
+    2. Create an Array using existing C array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-changing-the-float-precision-during-printing" class="md-nav__link">
+    3. Changing the float precision during printing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-map-a-function-over-the-array" class="md-nav__link">
+    4. Map a function over the Array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-array-stats" class="md-nav__link">
+    5. Array stats
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -475,7 +623,137 @@
   
 
 
-<h1 id="array">array</h1>
+<h1 id="array">Array</h1>
+<h4 id="structure">Structure</h4>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">Array</span><span class="p">;</span>
+</code></pre></div>
+<p>Array is LinearML way of storing both the C array and the number of elements at the
+same time.</p>
+<h3 id="examples">Examples</h3>
+<h4 id="1-creating-a-simple-array">1. Creating a simple Array</h4>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// create an array with 3 values</span>
+<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_create</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[0] = 1</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[1] = 4</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[2] = 5</span>
+
+<span class="w">    </span><span class="n">arr_print</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// free Array crated using arr_crate</span>
+<span class="w">    </span><span class="n">arr_free</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="go">[ 1.00 4.00 5.00 ]</span>
+</code></pre></div>
+<h4 id="2-create-an-array-using-existing-c-array">2. Create an Array using existing C array</h4>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">arr_vals</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// use an existing C array with 4 values</span>
+<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_init</span><span class="p">(</span><span class="n">arr_vals</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[0] = 5</span>
+<span class="w">    </span><span class="n">arr_print</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// free Array crated using arr_init</span>
+<span class="w">    </span><span class="n">arr_init_free</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="go">[ 5.00 2.00 3.00 4.00 ]</span>
+</code></pre></div>
+<h4 id="3-changing-the-float-precision-during-printing">3. Changing the float precision during printing</h4>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// create an array with 3 values</span>
+<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_create</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[0] = 1</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[1] = 4</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[2] = 5</span>
+
+<span class="w">    </span><span class="c1">// use arr_printp instead of arr_print</span>
+<span class="w">    </span><span class="n">arr_printp</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// free Array crated using arr_crate</span>
+<span class="w">    </span><span class="n">arr_free</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="go">[ 1 4 5 ]</span>
+</code></pre></div>
+<h4 id="4-map-a-function-over-the-array">4. Map a function over the Array</h4>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+
+<span class="kt">float</span><span class="w"> </span><span class="nf">add_three</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// create an array with 3 values</span>
+<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_create</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[0] = 1</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[1] = 4</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[2] = 5</span>
+
+<span class="w">    </span><span class="c1">// the function will return the same array back for</span>
+<span class="w">    </span><span class="c1">// convenience reasons</span>
+<span class="w">    </span><span class="n">arr_print</span><span class="p">(</span><span class="n">arr_map</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="n">add_three</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// free Array crated using arr_crate</span>
+<span class="w">    </span><span class="n">arr_free</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="go">[ 4.00 7.00 8.00 ]</span>
+</code></pre></div>
+<h4 id="5-array-stats">5. Array stats</h4>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#define INCLUDE_ARRAY_STATS</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// create an array with 3 values</span>
+<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_create</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[0] = 1</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[1] = 4</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">  </span><span class="c1">// set arr[2] = 5</span>
+
+<span class="w">    </span><span class="n">arr_print</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Mean: %.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">arr_mean</span><span class="p">(</span><span class="n">arr</span><span class="p">));</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Max: %.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">arr_max</span><span class="p">(</span><span class="n">arr</span><span class="p">));</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Min: %.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">arr_min</span><span class="p">(</span><span class="n">arr</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// free Array crated using arr_crate</span>
+<span class="w">    </span><span class="n">arr_free</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="go">[ 1.00 4.00 5.00 ]</span>
+<span class="go">Mean: 3.33</span>
+<span class="go">Max: 5.00</span>
+<span class="go">Min: 1.00</span>
+</code></pre></div>
 
 
 
