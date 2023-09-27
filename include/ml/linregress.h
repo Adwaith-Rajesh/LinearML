@@ -69,7 +69,7 @@ float linregress_score(LinearRegressionModel *model, float *x_test, float *y_tes
 // Array version of all the functions
 #ifdef INCLUDE_LINREGRESS_ARR_FUNC
 
-#include "array.h"
+#include "ds/array.h"
 
 #define linregress_fit_arr(model, x_arr, y_arr) linregress_fit(model, (x_arr)->arr, (y_arr)->arr, (x_arr)->size);
 

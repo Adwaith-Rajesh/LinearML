@@ -1,4 +1,4 @@
-#include "stats.h"
+#include "stats/stats.h"
 
 #include <float.h>
 #include <stddef.h>

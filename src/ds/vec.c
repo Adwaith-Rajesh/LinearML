@@ -1,4 +1,4 @@
-#include "vec.h"
+#include "ds/vec.h"
 
 #include <math.h>
 #include <stdio.h>
