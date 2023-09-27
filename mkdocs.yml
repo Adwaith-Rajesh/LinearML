@@ -2,7 +2,7 @@ site_name: LinearML
 theme:
   name: material
   logo: assets/logo-circle.png
-  # favicon: assets/favicon.png
+  favicon: assets/logo-circle.png
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default

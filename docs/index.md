@@ -1,4 +1,4 @@
-![LinearML banner](/assets/linear_ml_banner.png)
+![LinearML banner](assets/linear_ml_banner.png)
 
 A learning project where I try to build a ML library from scratch in C.
 
