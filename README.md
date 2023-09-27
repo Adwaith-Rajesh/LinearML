@@ -1,4 +1,4 @@
-# $LinearML$
+![LinearML Logo](/docs/assets/linear%20ml%20banner.png)
 
 A Linear Algebra and Machine Learning "Library" in C
 
