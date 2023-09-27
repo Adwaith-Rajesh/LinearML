@@ -72,6 +72,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#building-linearml" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -248,6 +253,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    LinearML
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -257,6 +273,37 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#building-linearml" class="md-nav__link">
+    Building LinearML
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-the-install" class="md-nav__link">
+    Testing the install
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -446,6 +493,28 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#building-linearml" class="md-nav__link">
+    Building LinearML
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-the-install" class="md-nav__link">
+    Testing the install
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -464,7 +533,52 @@
 
   <h1>LinearML</h1>
 
-<p><span class="arithmatex">\(LinearML\)</span></p>
+<p><img alt="LinearML banner" src="/assets/linear_ml_banner.png" /></p>
+<p>A learning project where I try to build a ML library from scratch in C.</p>
+<h2 id="building-linearml">Building LinearML</h2>
+<p>LinearML uses <a href="https://github.com/Adwaith-Rajesh/buildme">BuildMe</a> as it's build system. It's a build system that I made. It is still WIP.</p>
+<p>Install the BuildMe with the command</p>
+<div class="highlight"><pre><span></span><code><span class="go">pip3 install buildme</span>
+</code></pre></div>
+<p>Clone the repo</p>
+<div class="highlight"><pre><span></span><code><span class="go">git clone --depth=1 -b master https://github.com/Adwaith-Rajesh/LinearML.git</span>
+</code></pre></div>
+<p>Compile the <code>liblinearml.so</code></p>
+<div class="highlight"><pre><span></span><code><span class="go">cd ./LinearML</span>
+<span class="go">chmod +x buildme</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="go">./buildme all</span>
+</code></pre></div>
+<p>This will create a <code>build</code> folder where the shared object will be present in the <code>build/lib</code> folder</p>
+<h2 id="testing-the-install">Testing the install</h2>
+<p>Let's create a simple Array and print it to check whether everything works</p>
+<div class="highlight"><pre><span></span><code><span class="go">touch test_lm.c</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">// test_lm.c</span>
+
+<span class="cp">#define INCLUDE_ARRAY_STATS</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_create</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">arr_print</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+<span class="w">    </span><span class="n">arr_free</span><span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Compile</p>
+<div class="highlight"><pre><span></span><code><span class="go">gcc -o test_lm test_lm.c -I./include -L./build/lib -llinearml -lm</span>
+</code></pre></div>
+<p>Run</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>./build/lib<span class="w"> </span>./test_lm
+<span class="go">[ 1.00 4.00 5.00 ]</span>
+</code></pre></div>
 
 
 
