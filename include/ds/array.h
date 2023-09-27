@@ -73,7 +73,7 @@ Array *arr_map(Array *arr, ArrayMapFuncType fn);
 
 #ifdef INCLUDE_ARRAY_STATS
 
-#include "stats.h"
+#include "stats/stats.h"
 
 /* mean of an array */
 #define arr_mean(arr) (stats_mean(arr->arr, arr->size))

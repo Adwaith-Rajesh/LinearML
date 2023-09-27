@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "stats.h"
+#include "stats/stats.h"
 #include "utils/mem.h"
 
 LinearRegressionModel *linregress_init() {

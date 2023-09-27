@@ -1,4 +1,4 @@
-#include "mat.h"
+#include "ds/mat.h"
 
 #include <stddef.h>
 #include <stdio.h>

@@ -1,4 +1,4 @@
-#include "array.h"
+#include "ds/array.h"
 
 #include <stdio.h>
 
