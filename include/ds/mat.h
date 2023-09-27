@@ -33,13 +33,7 @@ typedef struct {
 
 #define MAT_AT(m, r, c) (m)->elems[c + (m)->cols * r]
 
-// global variable that defines the number of decimal places printed
-extern int mat_print_prec;
-
-/*
-Set the printing precision for mat_print
-*/
-void set_mat_print_prec(int prec);
+#define mat_print(matrix) mat_printp(matrix, 2)
 
 /*
 Create a rows x cols matrix
@@ -64,7 +58,7 @@ Mat *mat_identity(size_t size);
 /*
 Display the given matrix
 */
-void mat_print(Mat *mat);
+void mat_printp(Mat *mat, int print_prec);
 
 /*
 Free a Mat

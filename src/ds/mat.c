@@ -6,19 +6,13 @@
 
 #include "utils/mem.h"
 
-int mat_print_prec = 2;
-
 static void _set_zeros(float *arr, int n) {
     for (int i = 0; i < n; i++) {
         arr[i] = 0.0f;
     }
 }
 
-void set_mat_print_prec(int prec) {
-    mat_print_prec = prec;
-}
-
-void mat_print(Mat *mat) {
+void mat_printp(Mat *mat, int print_prec) {
     if (mat == NULL) {
         fprintf(stderr, "The mat is NULL\n");
         return;
@@ -26,7 +20,7 @@ void mat_print(Mat *mat) {
 
     for (size_t i = 0; i < mat->rows; i++) {
         for (size_t j = 0; j < mat->cols; j++) {
-            printf("%.*f ", mat_print_prec, MAT_AT(mat, i, j));
+            printf("  %.*f ", print_prec, MAT_AT(mat, i, j));
         }
         printf("\n");
     }
