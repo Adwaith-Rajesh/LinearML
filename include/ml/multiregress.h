@@ -54,6 +54,8 @@ Predict new values with the multiple regression model
 */
 float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t len);
 
+#define mlinregress_predict_arr(model, array) mlinregress_predict(model, array->arr, array->size)
+
 /*
 Score/test the multiple linear regression model based on known x and y values
 */
