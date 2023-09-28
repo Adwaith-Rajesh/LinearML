@@ -617,6 +617,92 @@ The methods used to do so is called the <a href="https://en.wikipedia.org/wiki/L
 \]</div>
 <p>The proof for this derivation can be found <a href="https://www.youtube.com/watch?v=fBaXhzlSO18">here</a>.</p>
 <h2 id="the-code">The Code</h2>
+<p>Here is an example of training the Multiple Linear Regression Model with an example data.</p>
+<p>Data</p>
+<div class="arithmatex">\[
+\begin{array}{|c|c|c|}
+\hline
+    \text{${x_1}$} &amp; \text{${x_2}$} &amp; \text{${y}$} \\
+\hline
+    1 &amp; 1 &amp; 3.25 \\
+\hline
+    1 &amp; 2 &amp; 6.5 \\
+\hline
+    2 &amp; 2 &amp; 3.5 \\
+\hline
+    0 &amp; 1 &amp; 5.0 \\
+\hline
+\end{array}
+\]</div>
+<p>When fitting the <code>MLinearRegressionModel</code> using the function <code>mlinregress_fit</code>, the <span class="arithmatex">\(X\)</span> matrix must be</p>
+<div class="arithmatex">\[
+X =
+\begin{bmatrix}
+1 &amp; 1 \\
+1 &amp; 2 \\
+2 &amp; 2 \\
+0 &amp; 1 \\
+\end{bmatrix}
+\]</div>
+<p>The <span class="arithmatex">\(1^{st}\)</span> column are the values of <span class="arithmatex">\(x_1\)</span> and <span class="arithmatex">\(2^{nd}\)</span> columns are the values of <span class="arithmatex">\(x_2\)</span>.</p>
+<p>The <span class="arithmatex">\(Y\)</span> matrix will look like the following</p>
+<div class="arithmatex">\[
+Y =
+\begin{bmatrix}
+3.25 \\
+6.5 \\
+3.5 \\
+5.0 \\
+\end{bmatrix}
+\]</div>
+<p>In code</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ml/multiregress.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x_vals</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">};</span>
+
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y_vals</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="mf">3.25</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">6.5</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">3.5</span><span class="p">,</span>
+<span class="w">        </span><span class="mf">5.0</span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">x_mat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mat_create_from_array</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Mat</span><span class="w"> </span><span class="o">*</span><span class="n">y_mat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mat_create_from_array</span><span class="p">(</span><span class="n">y_vals</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">MLinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mlinregress_init</span><span class="p">();</span>
+<span class="w">    </span><span class="n">mlinregress_fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">x_mat</span><span class="p">,</span><span class="w"> </span><span class="n">y_mat</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;coefficients:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mat_print</span><span class="p">(</span><span class="n">model</span><span class="o">-&gt;</span><span class="n">coefs</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;intercept: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="o">-&gt;</span><span class="n">intercept</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Array *arr = arr_create(2);</span>
+<span class="w">    </span><span class="c1">// ARR_AT(arr, 0) = 4;</span>
+<span class="w">    </span><span class="c1">// ARR_AT(arr, 1) = 3;</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;predicted: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mlinregress_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">[]){</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">},</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span>
+<span class="w">    </span><span class="c1">// printf(&quot;predicted: %f\n&quot;, mlinregress_predict_arr(model, arr));</span>
+
+<span class="w">    </span><span class="n">mat_free_no_array</span><span class="p">(</span><span class="n">x_mat</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mat_free_no_array</span><span class="p">(</span><span class="n">y_mat</span><span class="p">);</span>
+<span class="w">    </span><span class="n">mlinregress_free</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Run the code, instructions <a href="https://adwaith-rajesh.github.io/LinearML/#testing-the-install">here</a></p>
+<div class="highlight"><pre><span></span><code><span class="go">coefficients:</span>
+<span class="go">  -2.38</span>
+<span class="go">  3.25</span>
+<span class="go">intercept: 2.062500</span>
+<span class="go">predicted: 2.312500</span>
+</code></pre></div>
 
 
 
