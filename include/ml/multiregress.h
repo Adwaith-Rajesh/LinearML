@@ -23,4 +23,39 @@ SOFTWARE.
 #ifndef ML_MULTI_REGRESS_H
 #define ML_MULTI_REGRESS_H
 
+#include "ds/mat.h"
+
+// refer: https://adwaith-rajesh.github.io/LinearML/ml/multiregress/
+
+typedef struct {
+    Mat *coefs;  // the coefficients
+    float intercept;
+    // float rvalue;  // corelation value
+} MLinearRegressionModel;
+
+/*
+Initialize the multiple linear regression model
+*/
+MLinearRegressionModel *mlinregress_init();
+
+/*
+Free the Multiple linear regression model
+*/
+void mlinregress_free(MLinearRegressionModel *model);
+
+/*
+Fit the multiple linear regression model with the values
+*/
+MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, Mat *y);
+
+/*
+Predict new values with the multiple regression model
+*/
+float mlinregress_predict(MLinearRegressionModel *model, float x);
+
+/*
+Score/test the multiple linear regression model based on known x and y values
+*/
+float mlinregress_score(MLinearRegressionModel *model, float *x_test, float *y_test, size_t len);
+
 #endif
