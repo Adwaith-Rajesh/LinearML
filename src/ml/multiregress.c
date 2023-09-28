@@ -1,5 +1,8 @@
 #include "ml/multiregress.h"
 
+#include <stdio.h>
+
+#include "ds/array.h"
 #include "ds/mat.h"
 #include "utils/mem.h"
 
@@ -38,4 +41,21 @@ MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, M
     mat_free(xt);
 
     return model;
+}
+
+float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t len) {
+    if (len != model->coefs->rows - 1) {
+        fprintf(stderr, "Model is trained on %ld params, x_vals has %ld\n",
+                model->coefs->rows - 1, len);
+        return 0.0f;
+    }
+
+    // the first value in the model->coefs matrix is the intercept
+    // the rest are coefficients.
+
+    float pred_val = model->intercept;
+    for (size_t i = 0; i < len; i++) {
+        pred_val += (x_vals[i] * MAT_AT(model->coefs, i + 1, 0));
+    }
+    return pred_val;
 }

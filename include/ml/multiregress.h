@@ -23,6 +23,7 @@ SOFTWARE.
 #ifndef ML_MULTI_REGRESS_H
 #define ML_MULTI_REGRESS_H
 
+#include "ds/array.h"
 #include "ds/mat.h"
 
 // refer: https://adwaith-rajesh.github.io/LinearML/ml/multiregress/
@@ -51,7 +52,7 @@ MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, M
 /*
 Predict new values with the multiple regression model
 */
-float mlinregress_predict(MLinearRegressionModel *model, float x);
+float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t len);
 
 /*
 Score/test the multiple linear regression model based on known x and y values
