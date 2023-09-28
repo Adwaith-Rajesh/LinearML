@@ -27,6 +27,7 @@ nav:
     - Vector: ds/vec.md
   - Machine Learning:
     - Linear Regression: ml/linregress.md
+    - Multiple Linear Regression: ml/multiregress.md
 
 repo_url: https://github.com/Adwaith-Rajesh/LinearML
 repo_name: Adwaith-Rajesh/LinearML
