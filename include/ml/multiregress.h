@@ -59,6 +59,6 @@ float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t l
 /*
 Score/test the multiple linear regression model based on known x and y values
 */
-float mlinregress_score(MLinearRegressionModel *model, float *x_test, float *y_test, size_t len);
+// TODO: score the model
 
 #endif

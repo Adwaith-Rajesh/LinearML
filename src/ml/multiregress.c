@@ -6,6 +6,23 @@
 #include "ds/mat.h"
 #include "utils/mem.h"
 
+Mat *_prepare_mat_for_fit(Mat *mat) {
+    // add new col of 1's to the provided mat
+
+    Mat *new_mat = mat_create(mat->rows, mat->cols + 1);
+
+    for (size_t r = 0; r < new_mat->rows; r++) {
+        for (size_t c = 0; c < new_mat->cols; c++) {
+            if (c == 0) {
+                MAT_AT(new_mat, r, c) = 1;
+            } else {
+                MAT_AT(new_mat, r, c) = MAT_AT(mat, r, c - 1);
+            }
+        }
+    }
+    return new_mat;
+}
+
 MLinearRegressionModel *mlinregress_init() {
     MLinearRegressionModel *new_model = malloc_with_check(sizeof(MLinearRegressionModel));
     new_model->coefs = NULL;
@@ -26,8 +43,10 @@ void mlinregress_free(MLinearRegressionModel *model) {
 
 // refer: https://adwaith-rajesh.github.io/LinearML/ml/multiregress/#the-math
 MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, Mat *y) {
-    Mat *xt = mat_transpose(x);
-    Mat *xt_x = mat_mul(xt, x);
+    Mat *new_x = _prepare_mat_for_fit(x);
+
+    Mat *xt = mat_transpose(new_x);
+    Mat *xt_x = mat_mul(xt, new_x);
     Mat *xt_x_i = mat_inverse(xt_x);
     Mat *xt_y = mat_mul(xt, y);
     Mat *betas = mat_mul(xt_x_i, xt_y);
@@ -45,6 +64,7 @@ MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, M
     mat_free(xt_x_i);
     mat_free(xt_x);
     mat_free(xt);
+    mat_free(new_x);
 
     return model;
 }
@@ -65,3 +85,5 @@ float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t l
     }
     return pred_val;
 }
+
+// TODO: Score the model
