@@ -18,8 +18,10 @@ DS_DIR = SRC_DIR + '/ds'
 UTILS_DIR = SRC_DIR + '/utils'
 ML_DIR = SRC_DIR + '/ml'
 STATS_DIR = SRC_DIR + '/stats'
+PARSERS_DIR = SRC_DIR + '/parsers'
 
-files_to_compile = [f'f:{UTILS_DIR}/*.c', f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c', f'f:{DS_DIR}/*.c']
+files_to_compile = [f'f:{UTILS_DIR}/*.c', f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c',
+                    f'f:{DS_DIR}/*.c', f'f:{PARSERS_DIR}/*.c']
 header_files = list(map(lambda x: f'f:{x}', get_files_in_dir('./include/**/*.h', recurse=True)))
 
 
