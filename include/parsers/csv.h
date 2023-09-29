@@ -62,7 +62,7 @@ Initialize the CSV reader/parser
 
 the number rows should not include the header.
 */
-CSV *csv_init(size_t rows, size_t cols);
+CSV *csv_init(size_t rows, size_t cols, char delim);
 
 /*
 Free the CSV reader
@@ -70,9 +70,14 @@ Free the CSV reader
 void csv_free(CSV *csv);
 
 /*
+Display the parsed CSV
+*/
+void csv_print(CSV *csv);
+
+/*
 Parse the given CSV file
 */
-CSV *csv_parse(CSV *csv, const char *filename, char delim);
+CSV *csv_parse(CSV *csv, const char *filename);
 
 /*
 Returns a new Mat with only the selected rows and cols
