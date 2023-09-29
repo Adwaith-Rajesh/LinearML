@@ -80,8 +80,8 @@ Parse the given CSV file
 CSV *csv_parse(CSV *csv, const char *filename);
 
 /*
-Returns a new Mat with only the selected rows and cols
+Returns a new Mat with only the selected cols
 */
-Mat *csv_get_mat(CSV *csv, float *rows, size_t r_size);
+Mat *csv_get_mat(CSV *csv, int *rows, size_t c_size);
 
 #endif

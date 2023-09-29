@@ -68,3 +68,18 @@ CSV *csv_parse(CSV *csv, const char *filename) {
     fclose(fp);
     return csv;
 }
+
+Mat *csv_get_mat(CSV *csv, int *cols, size_t c_size) {
+    Mat *new_mat = mat_create(csv->values->rows, c_size);
+
+    size_t new_mat_col = 0;
+
+    for (size_t c = 0; c < c_size; c++) {
+        for (size_t r = 0; r < csv->values->rows; r++) {
+            MAT_AT(new_mat, r, new_mat_col) = MAT_AT(csv->values, r, cols[c]);
+        }
+        new_mat_col++;
+    }
+
+    return new_mat;
+}
