@@ -28,6 +28,8 @@ nav:
   - Machine Learning:
     - Linear Regression: ml/linregress.md
     - Multiple Linear Regression: ml/multiregress.md
+  - Parsers:
+    - CSV: parsers/csv.md
 
 repo_url: https://github.com/Adwaith-Rajesh/LinearML
 repo_name: Adwaith-Rajesh/LinearML
