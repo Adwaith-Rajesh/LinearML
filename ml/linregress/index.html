@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../../ds/vec/">
+        <link rel="prev" href="../../ds/mat/">
       
       
         <link rel="next" href="../multiregress/">
@@ -337,26 +337,6 @@
 
               
             
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ds/vec/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Vector
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -417,6 +397,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Linear Regression
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -426,6 +417,46 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-math" class="md-nav__link">
+    The math
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-code" class="md-nav__link">
+    The Code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#list-of-functions" class="md-nav__link">
+    List of functions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -542,6 +573,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-math" class="md-nav__link">
+    The math
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-code" class="md-nav__link">
+    The Code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#list-of-functions" class="md-nav__link">
+    List of functions
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -559,7 +619,130 @@
 
 
 <h1 id="linear-regression">Linear Regression</h1>
-<p><span class="arithmatex">\(\text{Hello World}\)</span></p>
+<h2 id="the-math">The math</h2>
+<p>Well, what is Linear Regression or Simple Linear Regression?</p>
+<p>Acco.To Wiki</p>
+<blockquote>
+<p>"linear regression is a linear approach for modelling the relationship between a scalar response and one or more explanatory variables (also known as dependent and independent variables)"</p>
+</blockquote>
+<p>or in other words use one variable to predict the value of another.</p>
+<p>Now, how do you do that?</p>
+<p>A simple linear regression model defines the relationship between two variables <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span>
+using a line defined by an equation in the following form:</p>
+<div class="arithmatex">\[
+y = \alpha + \beta x
+\]</div>
+<p>In order to determine the optimal estimates of <span class="arithmatex">\(\alpha\)</span> and <span class="arithmatex">\(\beta\)</span>, an estimation method known
+as <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares#Simple_linear_regression_model"><em>Ordinary Least Squares</em></a> is used.</p>
+<p>Now after a lot of derivation and other math stuff, which I won't go over here, we will end up
+with two nice formulas for finding <span class="arithmatex">\(\alpha\)</span> and <span class="arithmatex">\(\beta\)</span></p>
+<div class="arithmatex">\[
+\beta = { Cov(x, y) \over Var(x)}
+\]</div>
+<div class="arithmatex">\[
+\alpha = \overline{y} - \beta \overline{x}
+\]</div>
+<p>Where</p>
+<div class="arithmatex">\[
+Cov(x, y) = {1 \over n - 1} \sum_{i=1}^{n} (x_i - \overline{x}) \ (y_i - \overline{y})
+\]</div>
+<div class="arithmatex">\[
+Var(x) = {1 \over n - 1} \sum_{i=1}^{n} (x_i - \overline{x})^2
+\]</div>
+<ul>
+<li><span class="arithmatex">\(x_i\)</span> , the value of x.</li>
+<li><span class="arithmatex">\(y_i\)</span> , the values of y.</li>
+<li><span class="arithmatex">\(n\)</span> is the number of samples.</li>
+<li><span class="arithmatex">\(\overline x\)</span>, <span class="arithmatex">\(\overline y\)</span> are the mean of <span class="arithmatex">\(x\)</span> and <span class="arithmatex">\(y\)</span>.</li>
+</ul>
+<h2 id="the-code">The Code</h2>
+<p>This is a really stupid example.. but it shows it's working.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ml/linregress.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x_vals</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y_vals</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linregress_init</span><span class="p">();</span>
+<span class="w">    </span><span class="n">linregress_fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">x_vals</span><span class="p">,</span><span class="w"> </span><span class="n">y_vals</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Slope: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="o">-&gt;</span><span class="n">slope</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Intercept: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="o">-&gt;</span><span class="n">intercept</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;R value: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="o">-&gt;</span><span class="n">rvalue</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;prediction (20): %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linregress_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">linregress_free</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Run the code, instructions <a href="https://adwaith-rajesh.github.io/LinearML/#testing-the-install">here</a></p>
+<div class="highlight"><pre><span></span><code><span class="go">Slope: 2.000000</span>
+<span class="go">Intercept: 0.000000</span>
+<span class="go">R value: 1.000000</span>
+<span class="go">prediction (20): 40.000000</span>
+</code></pre></div>
+<h2 id="list-of-functions">List of functions</h2>
+<div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">Initialize the simple linear regression model</span>
+<span class="cm">*/</span>
+<span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="nf">linregress_init</span><span class="p">();</span>
+
+<span class="cm">/*</span>
+<span class="cm">Free the linear regression model</span>
+<span class="cm">*/</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">linregress_free</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Fit the linear regression model with the values</span>
+<span class="cm">*/</span>
+<span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="nf">linregress_fit</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Predict new values with the linear regression model</span>
+<span class="cm">*/</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">linregress_predict</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">Score/test the linear regression model based on known x and y values</span>
+<span class="cm">*/</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">linregress_score</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">x_test</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+
+<span class="c1">// Mat version of all the funcs</span>
+<span class="cp">#ifdef INCLUDE_LINREGRESS_MAT_FUNC</span>
+
+<span class="cp">#define linregress_fit_mat(model, mat) linregress_fit(model, &amp;mat-&gt;elems[0], &amp;mat-&gt;elems[mat-&gt;rows], mat-&gt;rows)</span>
+
+<span class="cp">#define linregress_score_mat(model, mat) linregress_score(model, &amp;mat-&gt;elems[0], &amp;mat-&gt;elems[mat-&gt;rows], mat-&gt;rows)</span>
+
+<span class="cp">#endif</span>
+
+<span class="c1">// Array version of all the functions</span>
+<span class="cp">#ifdef INCLUDE_LINREGRESS_ARR_FUNC</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
+
+<span class="cp">#define linregress_fit_arr(model, x_arr, y_arr) linregress_fit(model, (x_arr)-&gt;arr, (y_arr)-&gt;arr, (x_arr)-&gt;size);</span>
+
+<span class="cp">#define linregress_score_arr(model, x_arr, y_arr) linregress_score(model, (x_arr)-&gt;arr, (y_arr)-&gt;arr, (x_arr)-&gt;size);</span>
+
+<span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="nf">linregress_predict_arr</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">x_vals</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">pred_arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_create</span><span class="p">(</span><span class="n">x_vals</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x_vals</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">pred_arr</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linregress_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">pred_arr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#endif</span>
+</code></pre></div>
+<p>If you have any issues, queries feel free to contact me through the socials given below</p>
 
 
 
