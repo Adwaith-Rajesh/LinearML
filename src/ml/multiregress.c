@@ -47,6 +47,7 @@ MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, M
 
     Mat *xt = mat_transpose(new_x);
     Mat *xt_x = mat_mul(xt, new_x);
+    // FIXME: better inverse algorithm
     Mat *xt_x_i = mat_inverse(xt_x);
     Mat *xt_y = mat_mul(xt, y);
     Mat *betas = mat_mul(xt_x_i, xt_y);

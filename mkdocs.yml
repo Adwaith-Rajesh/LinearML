@@ -24,7 +24,7 @@ nav:
   - Data Structure:
     - Array: ds/array.md
     - Matrix: ds/mat.md
-    - Vector: ds/vec.md
+    # - Vector: ds/vec.md
   - Machine Learning:
     - Linear Regression: ml/linregress.md
     - Multiple Linear Regression: ml/multiregress.md
