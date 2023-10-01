@@ -55,6 +55,16 @@ Create a size x size identity matrix
 Mat *mat_identity(size_t size);
 
 /*
+get value at mat[row, col]
+*/
+double mat_get(Mat *mat, size_t row, size_t col);
+
+/*
+Set mat[row, col] = val, and return the mat
+*/
+Mat *mat_set(Mat *mat, size_t row, size_t col, double val);
+
+/*
 Display the given matrix
 */
 void mat_printp(Mat *mat, int print_prec);
@@ -106,5 +116,10 @@ double mat_det(Mat *mat);
 You need to free the returned Mat
 */
 Mat *mat_inverse(Mat *mat);
+
+/*
+Returns a copy of the given matrix
+*/
+Mat *mat_cpy(Mat *mat);
 
 #endif

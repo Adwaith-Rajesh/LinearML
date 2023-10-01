@@ -56,6 +56,24 @@ Mat *mat_identity(size_t size) {
     return new_mat;
 }
 
+double mat_get(Mat *mat, size_t row, size_t col) {
+    if (mat == NULL) {
+        fprintf(stderr, "mat_get: mat is null, returning 0.0\n");
+        return 0.0;
+    }
+    return gsl_matrix_get(mat->mat, row, col);
+}
+
+Mat *mat_set(Mat *mat, size_t row, size_t col, double val) {
+    if (mat == NULL) {
+        fprintf(stderr, "mat_set: mat us NULL, returning NULL\n");
+        return NULL;
+    }
+
+    gsl_matrix_set(mat->mat, row, col, val);
+    return mat;
+}
+
 void mat_free(Mat *mat) {
     if (mat == NULL) return;
     if (mat->mat != NULL) {
@@ -143,4 +161,10 @@ Mat *mat_inverse(Mat *mat) {
 
     gsl_permutation_free(p);
     return invert;
+}
+
+Mat *mat_cpy(Mat *mat) {
+    Mat *new_mat = mat_create(mat->rows, mat->cols);
+    gsl_matrix_memcpy(new_mat->mat, mat->mat);
+    return new_mat;
 }
