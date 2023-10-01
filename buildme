@@ -12,6 +12,7 @@ C_INCLUDES = '-I./include -I./src'
 BUILD_DIR = './build'
 OUT_DIR = BUILD_DIR + '/out'
 LIB_DIR = BUILD_DIR + '/lib'
+GSL_DIR = ''
 
 SRC_DIR = './src'
 DS_DIR = SRC_DIR + '/ds'
@@ -41,7 +42,14 @@ def create_object_file(c_file: str):
 @target(creates=[f'{LIB_DIR}/liblinearml.so'], depends=['gen_o_files', f'f:{OUT_DIR}/*.o'])
 def liblinearml_so(_, t):
     o_files = ' '.join(get_files_in_dir(f'{OUT_DIR}/*.o'))
-    cr.run(f'{cc()} -shared -fPIC {o_files} -o {t.creates.files[0]}')
+
+    # add GSL files
+    if GSL_DIR:
+        gsl_files = f'{Path(GSL_DIR) / "lib/libgsl.a"} {Path(GSL_DIR) / "lib/libgslcblas.a"}'
+    else:
+        gsl_files = ''
+
+    cr.run(f'{cc()} -shared -fPIC {o_files} {gsl_files} -o {t.creates.files[0]}')
 
 
 @target(creates=[f'{OUT_DIR}/*.o'], depends=files_to_compile + header_files)
@@ -60,15 +68,21 @@ def init(opts, _):
 
     global C_FLAGS
     global CC
+    global GSL_DIR
+    global C_INCLUDES
 
     if getattr(opts, 'release', None) is not None:
         if opts.release == '1':
             C_FLAGS += ' -O3'
-            return
-    C_FLAGS += ' -g'
+        else:
+            C_FLAGS += ' -g'
 
     if getattr(opts, 'cc', None) is not None:
         CC = opts.cc
+
+    if getattr(opts, 'gslpath', None) is not None:
+        GSL_DIR = opts.gslpath
+        C_INCLUDES += f' -I{Path(GSL_DIR) / "include"}'
 
 
 @target()
