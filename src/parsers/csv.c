@@ -56,7 +56,7 @@ CSV *csv_parse(CSV *csv, const char *filename) {
     size_t c = 0;
 
     while (fscanf(fp, scanset, item, &curr_delim) != EOF) {
-        MAT_AT(csv->values, r, c) = strtof(item, NULL);
+        mat_set(csv->values, r, c, strtod(item, NULL));
         c++;
 
         if (curr_delim == '\n') {
@@ -76,7 +76,7 @@ Mat *csv_get_mat(CSV *csv, int *cols, size_t c_size) {
 
     for (size_t c = 0; c < c_size; c++) {
         for (size_t r = 0; r < csv->values->rows; r++) {
-            MAT_AT(new_mat, r, new_mat_col) = MAT_AT(csv->values, r, cols[c]);
+            mat_set(new_mat, r, new_mat_col, mat_get(csv->values, r, cols[c]));
         }
         new_mat_col++;
     }
