@@ -32,8 +32,6 @@ typedef struct {
     size_t cols;
 } Mat;
 
-#define MAT_AT(m, r, c) (m)->elems[c + (m)->cols * r]  //
-
 #define mat_print(matrix) mat_printp(matrix, 2)
 
 /*
