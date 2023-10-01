@@ -23,15 +23,16 @@ SOFTWARE.
 #ifndef MAT_H
 #define MAT_H
 
+#include <gsl/gsl_matrix.h>
 #include <stddef.h>
 
 typedef struct {
-    float *elems;
+    gsl_matrix *mat;
     size_t rows;
     size_t cols;
 } Mat;
 
-#define MAT_AT(m, r, c) (m)->elems[c + (m)->cols * r]
+#define MAT_AT(m, r, c) (m)->elems[c + (m)->cols * r]  //
 
 #define mat_print(matrix) mat_printp(matrix, 2)
 
@@ -43,7 +44,7 @@ Mat *mat_create(size_t rows, size_t cols);
 /*
 Create a Mat from an existing array
 */
-Mat *mat_create_from_array(float *arr, size_t rows, size_t cols);
+Mat *mat_create_from_array(double *arr, size_t rows, size_t cols);
 
 /*
 Create a zero matrix of size rows x cols
@@ -64,11 +65,6 @@ void mat_printp(Mat *mat, int print_prec);
 Free a Mat
 */
 void mat_free(Mat *mat);
-
-/*
-Free mat with user created arr
-*/
-void mat_free_no_array(Mat *mat);
 
 /*
 Add two Mat of the same dimension
@@ -94,7 +90,7 @@ Mat *mat_mul(Mat *mat1, Mat *mat2);
 /*
 Multiplies a scalar value to the Mat and returns the given mat
 */
-Mat *mat_scalar_mul(Mat *mat, float val);
+Mat *mat_scalar_mul(Mat *mat, double val);
 
 /*
 Returns a new matrix that is the transpose of the given mat
@@ -106,30 +102,9 @@ Mat *mat_transpose(Mat *mat);
 /*
 Find the determinant of a matrix
 */
-float mat_det(Mat *mat);
+double mat_det(Mat *mat);
 
 /*
-Find the cofactor of a given elements in Mat
-*/
-float mat_cofactor(Mat *mat, size_t row, size_t col);
-
-/*
-Returns a new Mat, that is the cofactor matrix of the given Mat
-
-You need to free the returned Mat
-*/
-Mat *mat_cofactor_matrix(Mat *mat);
-
-/*
-Returns a new Mat that is the adjoint of the given Mat
-
-You need to free the returned Mat;
-*/
-Mat *mat_adj(Mat *mat);
-
-/*
-Return a new Mat that is the inverse of the given Mat
-
 You need to free the returned Mat
 */
 Mat *mat_inverse(Mat *mat);
