@@ -4,6 +4,10 @@ A Linear Algebra and Machine Learning "Library" in C
 
 ---
 
+## THE GSL MOVE - the LinerML will now use [GSL]() under the hood.
+
+writing linear algebra function from scratch is really inefficient.
+
 # Why.....
 
 Well, I'm currently doing my bachelors in AI&DS so it just appropriate that I try out

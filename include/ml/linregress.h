@@ -27,9 +27,9 @@ SOFTWARE.
 
 typedef struct {
     // y = ax + b
-    float slope;
-    float intercept;
-    float rvalue;  // corelation value
+    double slope;
+    double intercept;
+    double rvalue;  // corelation value
 } LinearRegressionModel;
 
 /*
@@ -45,46 +45,16 @@ void linregress_free(LinearRegressionModel *model);
 /*
 Fit the linear regression model with the values
 */
-LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, size_t len);
+LinearRegressionModel *linregress_fit(LinearRegressionModel *model, double *x, double *y, size_t len);
 
 /*
 Predict new values with the linear regression model
 */
-float linregress_predict(LinearRegressionModel *model, float x);
+double linregress_predict(LinearRegressionModel *model, double x);
 
 /*
 Score/test the linear regression model based on known x and y values
 */
-float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, size_t len);
-
-// Mat version of all the funcs
-#ifdef INCLUDE_LINREGRESS_MAT_FUNC
-
-#define linregress_fit_mat(model, mat) linregress_fit(model, &mat->elems[0], &mat->elems[mat->rows], mat->rows)
-
-#define linregress_score_mat(model, mat) linregress_score(model, &mat->elems[0], &mat->elems[mat->rows], mat->rows)
-
-#endif
-
-// Array version of all the functions
-#ifdef INCLUDE_LINREGRESS_ARR_FUNC
-
-#include "ds/array.h"
-
-#define linregress_fit_arr(model, x_arr, y_arr) linregress_fit(model, (x_arr)->arr, (y_arr)->arr, (x_arr)->size);
-
-#define linregress_score_arr(model, x_arr, y_arr) linregress_score(model, (x_arr)->arr, (y_arr)->arr, (x_arr)->size);
-
-Array *linregress_predict_arr(LinearRegressionModel *model, Array *x_vals) {
-    Array *pred_arr = arr_create(x_vals->size);
-
-    for (size_t i = 0; i < x_vals->size; i++) {
-        ARR_AT(pred_arr, i) = linregress_predict(model, ARR_AT(x_vals, i));
-    }
-
-    return pred_arr;
-}
-
-#endif
+double linregress_score(LinearRegressionModel *model, double *x_test, double *y_test, size_t len);
 
 #endif

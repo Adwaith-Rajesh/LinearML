@@ -1,4 +1,5 @@
 #!/bin/env buildme
+import sys
 from pathlib import Path
 
 from buildme import CommandRunner
@@ -6,12 +7,13 @@ from buildme import target, mkdir, rmdir, get_files_in_dir, get_file_name
 
 CC = 'gcc'
 C_FLAGS = '-Wall -Wextra -std=c11'
-C_LIBS = '-lm'
+C_LIBS = '-lm -lgsl -lgslcblas'
 C_INCLUDES = '-I./include -I./src'
 
 BUILD_DIR = './build'
 OUT_DIR = BUILD_DIR + '/out'
 LIB_DIR = BUILD_DIR + '/lib'
+GSL_DIR = ''
 
 SRC_DIR = './src'
 DS_DIR = SRC_DIR + '/ds'
@@ -20,8 +22,13 @@ ML_DIR = SRC_DIR + '/ml'
 STATS_DIR = SRC_DIR + '/stats'
 PARSERS_DIR = SRC_DIR + '/parsers'
 
-files_to_compile = [f'f:{UTILS_DIR}/*.c', f'f:{ML_DIR}/*.c', f'f:{STATS_DIR}/*.c',
-                    f'f:{DS_DIR}/*.c', f'f:{PARSERS_DIR}/*.c']
+files_to_compile = [
+    f'f:{UTILS_DIR}/*.c',
+    f'f:{ML_DIR}/*.c',
+    f'f:{STATS_DIR}/*.c',
+    f'f:{DS_DIR}/*.c',
+    f'f:{PARSERS_DIR}/*.c'
+]
 header_files = list(map(lambda x: f'f:{x}', get_files_in_dir('./include/**/*.h', recurse=True)))
 
 
@@ -39,13 +46,21 @@ def create_object_file(c_file: str):
 
 
 @target(creates=[f'{LIB_DIR}/liblinearml.so'], depends=['gen_o_files', f'f:{OUT_DIR}/*.o'])
-def liblinearml_so(_, t):
+def liblinearml_so(opts, t):
+    if getattr(opts, 'gslpath', None) is None:
+        print('missing argument "gslpath"', file=sys.stderr)
+        sys.exit(1)
+
     o_files = ' '.join(get_files_in_dir(f'{OUT_DIR}/*.o'))
     cr.run(f'{cc()} -shared -fPIC {o_files} -o {t.creates.files[0]}')
 
 
 @target(creates=[f'{OUT_DIR}/*.o'], depends=files_to_compile + header_files)
-def gen_o_files(_, t):
+def gen_o_files(opts, t):
+    if getattr(opts, 'gslpath', None) is None:
+        print('missing argument "gslpath"', file=sys.stderr)
+        sys.exit(1)
+
     for c_file in t.depends.files:
         if c_file.endswith('.h'):
             continue
@@ -60,15 +75,23 @@ def init(opts, _):
 
     global C_FLAGS
     global CC
+    global GSL_DIR
+    global C_INCLUDES
+    global C_LIBS
 
     if getattr(opts, 'release', None) is not None:
         if opts.release == '1':
             C_FLAGS += ' -O3'
-            return
-    C_FLAGS += ' -g'
+        else:
+            C_FLAGS += ' -g'
 
     if getattr(opts, 'cc', None) is not None:
         CC = opts.cc
+
+    if getattr(opts, 'gslpath', None) is not None:
+        GSL_DIR = opts.gslpath
+        C_INCLUDES += f' -I{Path(GSL_DIR) / "include"}'
+        C_LIBS += f' -L{Path(GSL_DIR) / "lib"}'
 
 
 @target()

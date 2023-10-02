@@ -26,7 +26,7 @@ chmod +x buildme
 ```
 
 ```console
-./buildme all
+./buildme all --gslpath=/path/to/your/gsl/installation
 ```
 
 This will create a `build` folder where the shared object will be present in the `build/lib` folder
@@ -62,7 +62,7 @@ int main(void) {
 Compile
 
 ```console
-gcc -o test_lm test_lm.c -I./include -L./build/lib -llinearml -lm
+gcc -o test_lm test_lm.c -I./include -L./build/lib -llinearml -lm -lgsl -lgslcblas
 ```
 
 Run
