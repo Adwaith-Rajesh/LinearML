@@ -118,6 +118,11 @@ You need to free the returned Mat
 Mat *mat_inverse(Mat *mat);
 
 /*
+returns and inverse of MxN matrix using SVD
+*/
+Mat *mat_invert_svd(Mat *mat);
+
+/*
 Returns a copy of the given matrix
 */
 Mat *mat_cpy(Mat *mat);
