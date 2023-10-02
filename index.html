@@ -610,7 +610,7 @@
 <div class="highlight"><pre><span></span><code><span class="go">cd ./LinearML</span>
 <span class="go">chmod +x buildme</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="go">./buildme all</span>
+<div class="highlight"><pre><span></span><code><span class="go">./buildme all --gslpath=/path/to/your/gsl/installation</span>
 </code></pre></div>
 <p>This will create a <code>build</code> folder where the shared object will be present in the <code>build/lib</code> folder</p>
 <h2 id="testing-the-install">Testing the install</h2>
@@ -636,7 +636,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>Compile</p>
-<div class="highlight"><pre><span></span><code><span class="go">gcc -o test_lm test_lm.c -I./include -L./build/lib -llinearml -lm</span>
+<div class="highlight"><pre><span></span><code><span class="go">gcc -o test_lm test_lm.c -I./include -L./build/lib -llinearml -lm -lgsl -lgslcblas</span>
 </code></pre></div>
 <p>Run</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>./build/lib<span class="w"> </span>./test_lm

@@ -687,6 +687,14 @@ Var(x) = {1 \over n - 1} \sum_{i=1}^{n} (x_i - \overline{x})^2
 <span class="go">prediction (20): 40.000000</span>
 </code></pre></div>
 <h2 id="list-of-functions">List of functions</h2>
+<p>The struct</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// y = ax + b</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">slope</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">intercept</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">rvalue</span><span class="p">;</span><span class="w">  </span><span class="c1">// corelation value</span>
+<span class="p">}</span><span class="w"> </span><span class="n">LinearRegressionModel</span><span class="p">;</span>
+</code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm">Initialize the simple linear regression model</span>
 <span class="cm">*/</span>
@@ -700,47 +708,17 @@ Var(x) = {1 \over n - 1} \sum_{i=1}^{n} (x_i - \overline{x})^2
 <span class="cm">/*</span>
 <span class="cm">Fit the linear regression model with the values</span>
 <span class="cm">*/</span>
-<span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="nf">linregress_fit</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="nf">linregress_fit</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
 
 <span class="cm">/*</span>
 <span class="cm">Predict new values with the linear regression model</span>
 <span class="cm">*/</span>
-<span class="kt">float</span><span class="w"> </span><span class="nf">linregress_predict</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">linregress_predict</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
 
 <span class="cm">/*</span>
 <span class="cm">Score/test the linear regression model based on known x and y values</span>
 <span class="cm">*/</span>
-<span class="kt">float</span><span class="w"> </span><span class="nf">linregress_score</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">x_test</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
-
-<span class="c1">// Mat version of all the funcs</span>
-<span class="cp">#ifdef INCLUDE_LINREGRESS_MAT_FUNC</span>
-
-<span class="cp">#define linregress_fit_mat(model, mat) linregress_fit(model, &amp;mat-&gt;elems[0], &amp;mat-&gt;elems[mat-&gt;rows], mat-&gt;rows)</span>
-
-<span class="cp">#define linregress_score_mat(model, mat) linregress_score(model, &amp;mat-&gt;elems[0], &amp;mat-&gt;elems[mat-&gt;rows], mat-&gt;rows)</span>
-
-<span class="cp">#endif</span>
-
-<span class="c1">// Array version of all the functions</span>
-<span class="cp">#ifdef INCLUDE_LINREGRESS_ARR_FUNC</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ds/array.h&quot;</span>
-
-<span class="cp">#define linregress_fit_arr(model, x_arr, y_arr) linregress_fit(model, (x_arr)-&gt;arr, (y_arr)-&gt;arr, (x_arr)-&gt;size);</span>
-
-<span class="cp">#define linregress_score_arr(model, x_arr, y_arr) linregress_score(model, (x_arr)-&gt;arr, (y_arr)-&gt;arr, (x_arr)-&gt;size);</span>
-
-<span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="nf">linregress_predict_arr</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">x_vals</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Array</span><span class="w"> </span><span class="o">*</span><span class="n">pred_arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr_create</span><span class="p">(</span><span class="n">x_vals</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
-
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x_vals</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">pred_arr</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linregress_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ARR_AT</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">pred_arr</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="cp">#endif</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">linregress_score</span><span class="p">(</span><span class="n">LinearRegressionModel</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">x_test</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
 </code></pre></div>
 <p>If you have any issues, queries feel free to contact me through the socials given below</p>
 
