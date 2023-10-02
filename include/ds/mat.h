@@ -113,6 +113,8 @@ Find the determinant of a matrix
 double mat_det(Mat *mat);
 
 /*
+Find the inverse of the given mat using LU decomposition
+
 You need to free the returned Mat
 */
 Mat *mat_inverse(Mat *mat);
