@@ -14,9 +14,9 @@ Mat *_prepare_mat_for_fit(Mat *mat) {
     for (size_t r = 0; r < new_mat->rows; r++) {
         for (size_t c = 0; c < new_mat->cols; c++) {
             if (c == 0) {
-                MAT_AT(new_mat, r, c) = 1;
+                mat_set(new_mat, r, c, 1);
             } else {
-                MAT_AT(new_mat, r, c) = MAT_AT(mat, r, c - 1);
+                mat_set(new_mat, r, c, mat_get(mat, r, c - 1));
             }
         }
     }
@@ -47,15 +47,15 @@ MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, M
 
     Mat *xt = mat_transpose(new_x);
     Mat *xt_x = mat_mul(xt, new_x);
-    // FIXME: better inverse algorithm
-    Mat *xt_x_i = mat_inverse(xt_x);
+
+    Mat *xt_x_i = mat_invert_svd(xt_x);
     Mat *xt_y = mat_mul(xt, y);
     Mat *betas = mat_mul(xt_x_i, xt_y);
 
-    model->intercept = MAT_AT(betas, 0, 0);
+    model->intercept = mat_get(betas, 0, 0);
 
-    float *new_betas_array = malloc_with_check(sizeof(float) * betas->rows - 1);
-    for (size_t i = 0; i < betas->rows - 1; i++) new_betas_array[i] = betas->elems[i + 1];
+    double *new_betas_array = malloc_with_check(sizeof(double) * betas->rows - 1);
+    for (size_t i = 0; i < betas->rows - 1; i++) new_betas_array[i] = mat_get(betas, i + 1, 0);
     Mat *new_betas_mat = mat_create_from_array(new_betas_array, betas->rows - 1, betas->cols);
 
     model->coefs = new_betas_mat;
@@ -70,7 +70,7 @@ MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, M
     return model;
 }
 
-float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t len) {
+double mlinregress_predict(MLinearRegressionModel *model, double *x_vals, size_t len) {
     if (len != model->coefs->rows) {
         fprintf(stderr, "Model is trained on %ld params, x_vals has %ld\n",
                 model->coefs->rows, len);
@@ -78,11 +78,11 @@ float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t l
     }
 
     // the first value in the model->coefs matrix is the intercept
-    // the rest are coefficients.
+    // the rest are coefficients
 
-    float pred_val = model->intercept;
+    double pred_val = model->intercept;
     for (size_t i = 0; i < len; i++) {
-        pred_val += (x_vals[i] * MAT_AT(model->coefs, i, 0));
+        pred_val += (x_vals[i] * mat_get(model->coefs, i, 0));
     }
     return pred_val;
 }

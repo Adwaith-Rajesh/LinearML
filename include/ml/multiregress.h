@@ -30,7 +30,7 @@ SOFTWARE.
 
 typedef struct {
     Mat *coefs;  // the coefficients
-    float intercept;
+    double intercept;
     // float rvalue;  // corelation value
 } MLinearRegressionModel;
 
@@ -52,7 +52,7 @@ MLinearRegressionModel *mlinregress_fit(MLinearRegressionModel *model, Mat *x, M
 /*
 Predict new values with the multiple regression model
 */
-float mlinregress_predict(MLinearRegressionModel *model, float *x_vals, size_t len);
+double mlinregress_predict(MLinearRegressionModel *model, double *x_vals, size_t len);
 
 #define mlinregress_predict_arr(model, array) mlinregress_predict(model, array->arr, array->size)
 
