@@ -22,16 +22,16 @@ void linregress_free(LinearRegressionModel *model) {
     free(model);
 }
 
-LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, float *y, size_t len) {
+LinearRegressionModel *linregress_fit(LinearRegressionModel *model, double *x, double *y, size_t len) {
     // find the value of slope and intercept
 
-    float mean_x = stats_mean(x, len);
-    float mean_y = stats_mean(y, len);
-    float var_x = stats_var(x, len);
-    float var_y = stats_var(y, len);
-    float sd_x = sqrtf(var_x);  // std deviation
-    float sd_y = sqrtf(var_y);
-    float cov_xy = stats_covar(x, y, len);
+    double mean_x = stats_mean(x, len);
+    double mean_y = stats_mean(y, len);
+    double var_x = stats_var(x, len);
+    double var_y = stats_var(y, len);
+    double sd_x = sqrtf(var_x);  // std deviation
+    double sd_y = sqrtf(var_y);
+    double cov_xy = stats_covar(x, y, len);
 
     model->slope = cov_xy / var_x;
     model->intercept = mean_y - (model->slope * mean_x);
@@ -39,7 +39,7 @@ LinearRegressionModel *linregress_fit(LinearRegressionModel *model, float *x, fl
     return model;
 }
 
-float linregress_predict(LinearRegressionModel *model, float x) {
+double linregress_predict(LinearRegressionModel *model, double x) {
     if (model == NULL) {
         fprintf(stderr, "ml_predict_linregress_model: model values is NULL");
         return 0.0f;
@@ -47,14 +47,14 @@ float linregress_predict(LinearRegressionModel *model, float x) {
     return (model->slope * x) + model->intercept;
 }
 
-float linregress_score(LinearRegressionModel *model, float *x_test, float *y_test, size_t len) {
-    float ssr = 0.0f;  // sum (predicted - target)^2  squared sum of residuals
-    float sst = 0.0f;  // sum (target - target_mean)^2  squared sum of targets
+double linregress_score(LinearRegressionModel *model, double *x_test, double *y_test, size_t len) {
+    double ssr = 0.0f;  // sum (predicted - target)^2  squared sum of residuals
+    double sst = 0.0f;  // sum (target - target_mean)^2  squared sum of targets
 
-    float y_mean = stats_mean(y_test, len);
+    double y_mean = stats_mean(y_test, len);
 
     for (size_t i = 0; i < len; i++) {
-        float pred_val = linregress_predict(model, x_test[i]);
+        double pred_val = linregress_predict(model, x_test[i]);
         ssr += (pred_val - y_test[i]) * (pred_val - y_test[i]);
         sst += (y_test[i] - y_mean) * (y_test[i] - y_mean);
     }
