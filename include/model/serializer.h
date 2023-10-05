@@ -19,14 +19,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef INCLUDE_LINEAR_ML_SERIALIZER_H
 #define INCLUDE_LINEAR_ML_SERIALIZER_H
 
-#include "ml/linregress.h"
-#include "ml/multiregress.h"
+// #include "ml/linregress.h"
+// #include "ml/multiregress.h"
 
-#define serialize_model(model) _Generic ((model), \
-    LinearRegressionModel *: model_serialize(model, LinearRegression), \
-    MLinearRegressionModel *: model_serialize(model, MLinearRegression)
-)
-
+// #define serialize_model(model, filepath) _Generic ((model), \
+//     LinearRegressionModel *: model_serialize(model, LinearRegression, filepath), \
+//     MLinearRegressionModel *: model_serialize(model, MLinearRegression, filepath)
+// )
 
 typedef enum {
     LinearRegression,
@@ -41,6 +40,6 @@ void model_serialize(void *model, model_type type, const char *filepath);
 /*
 Deserialize the model from the binary file
 */
-void model_deserialize(void *mode, model_type type, const char *filepath);
+void model_deserialize(void *model, model_type type, const char *filepath);
 
 #endif
