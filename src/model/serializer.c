@@ -6,6 +6,8 @@
 #include "ml/linregress.h"
 #include "ml/multiregress.h"
 
+//  ------- individual serializer -------- /
+
 static void _serialize_size_t(size_t val, FILE *stream) {
     size_t temp = val;
     fwrite(&temp, sizeof(size_t), 1, stream);
@@ -44,18 +46,42 @@ static double _deserialize_double(FILE *stream) {
     return temp;
 }
 
-// ----------------------------------------
+//  ------- end individual serializer -------- /
+
+//  ------- model serializer -------- /
 
 static void _serializer_linregress_model(LinearRegressionModel *model, const char *filepath) {
+    /*
+    typedef struct {
+        // y = ax + b
+        double slope;
+        double intercept;
+        double rvalue;  // corelation value
+    } LinearRegressionModel;
+
+    we can serialize each of the double values.
+    */
+
+    FILE *fp = fopen(filepath, "wb");
+    if (fp == NULL) {
+        perror("model_serialize");
+        exit(EXIT_FAILURE);
+    }
+
+    _serialize_double(model->slope, fp);
+    _serialize_double(model->intercept, fp);
+    _serialize_double(model->rvalue, fp);
+
+    fclose(fp);
 }
+
 static void _serializer_mlinregress_model(MLinearRegressionModel *model, const char *filepath) {
     /*
     typedef struct {
         Mat *coefs;
         double intercept;
     } MLinearRegressionModel
-    we can serializer the double value and the gsl_matrix within the coefs, along
-    with it's rows and cols
+    we can serializer the double value and the Mat, along with it's rows and cols
      */
 
     FILE *fp = fopen(filepath, "wb");
@@ -70,10 +96,23 @@ static void _serializer_mlinregress_model(MLinearRegressionModel *model, const c
     fclose(fp);
 }
 
-static LinearRegressionModel *_deserialize_linregress_model(const char *filepath) {
+//  ------- end model serializer -------- /
+
+//  ------- model deserializer -------- /
+
+static void _deserialize_linregress_model(LinearRegressionModel *model, const char *filepath) {
+    FILE *fp = fopen(filepath, "rb");
+    if (fp == NULL) {
+        perror("model_deserialize");
+        exit(EXIT_FAILURE);
+    }
+
+    model->slope = _deserialize_double(fp);
+    model->intercept = _deserialize_double(fp);
+    model->rvalue = _deserialize_double(fp);
 }
 
-static MLinearRegressionModel *_deserialize_mlinregress_model(MLinearRegressionModel *model, const char *filepath) {
+static void _deserialize_mlinregress_model(MLinearRegressionModel *model, const char *filepath) {
     FILE *fp = fopen(filepath, "rb");
     if (fp == NULL) {
         perror("model_deserialize");
@@ -86,7 +125,6 @@ static MLinearRegressionModel *_deserialize_mlinregress_model(MLinearRegressionM
     model->coefs = coefs;
 
     fclose(fp);
-    return model;
 }
 
 void model_serialize(void *model, model_type type, const char *filepath) {
@@ -97,11 +135,16 @@ void model_serialize(void *model, model_type type, const char *filepath) {
     }
 }
 
+//  ------- end model deserializer -------- /
+
 void model_deserialize(void *model, model_type type, const char *filepath) {
     switch (type) {
         case LinearRegression: {
+            _deserialize_linregress_model(model, filepath);
+            break;
         }
         case MLinearRegression:
             _deserialize_mlinregress_model(model, filepath);
+            break;
     }
 }

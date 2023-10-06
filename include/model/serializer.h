@@ -19,14 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef INCLUDE_LINEAR_ML_SERIALIZER_H
 #define INCLUDE_LINEAR_ML_SERIALIZER_H
 
-// #include "ml/linregress.h"
-// #include "ml/multiregress.h"
-
-// #define serialize_model(model, filepath) _Generic ((model), \
-//     LinearRegressionModel *: model_serialize(model, LinearRegression, filepath), \
-//     MLinearRegressionModel *: model_serialize(model, MLinearRegression, filepath)
-// )
-
 typedef enum {
     LinearRegression,
     MLinearRegression
