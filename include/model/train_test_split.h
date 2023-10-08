@@ -23,8 +23,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 /*
 Split the given X and Y matrix to training and testing set
+The original Mat will be modified
 */
-void train_test_split(const Mat *X, const Mat *Y, Mat *X_train, Mat *X_test, Mat *Y_train, Mat *Y_test,
+void train_test_split(Mat *X, Mat *Y, Mat **X_train, Mat **X_test, Mat **Y_train, Mat **Y_test,
                       double test_size, int rand_state);
 
 #endif
