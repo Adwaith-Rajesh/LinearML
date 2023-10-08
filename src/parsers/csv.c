@@ -49,6 +49,11 @@ CSV *csv_parse(CSV *csv, const char *filename) {
 
     FILE *fp = fopen(filename, "r");
 
+    if (fp == NULL) {
+        perror("csv_parse");
+        exit(EXIT_FAILURE);
+    }
+
     char item[MAX_ITEM_BUF];
     char curr_delim;
 
