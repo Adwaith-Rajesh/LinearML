@@ -71,6 +71,11 @@ Free a Mat
 void mat_free(Mat *mat);
 
 /*
+Free count number of Mat's
+*/
+void mat_free_many(int count, ...);
+
+/*
 Add two Mat of the same dimension
 
 Adds mat2 to mat1 and returns mat1

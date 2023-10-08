@@ -3,6 +3,7 @@
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
 #include <gsl/gsl_matrix.h>
+#include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,6 +81,17 @@ void mat_free(Mat *mat) {
         gsl_matrix_free(mat->mat);
     }
     free(mat);
+}
+
+void mat_free_many(int count, ...) {
+    va_list args;
+    va_start(args, count);
+
+    for (int i = 0; i < count; i++) {
+        mat_free(va_arg(args, Mat *));
+    }
+
+    va_end(args);
 }
 
 Mat *mat_add(Mat *mat1, Mat *mat2) {
