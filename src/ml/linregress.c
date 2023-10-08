@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "ds/mat.h"
 #include "stats/stats.h"
 #include "utils/mem.h"
 
@@ -59,4 +60,24 @@ double linregress_score(LinearRegressionModel *model, double *x_test, double *y_
         sst += (y_test[i] - y_mean) * (y_test[i] - y_mean);
     }
     return 1.0f - (ssr / sst);
+}
+
+LinearRegressionModel *linregress_fit_mat(LinearRegressionModel *model, Mat *X, Mat *Y) {
+    if (X->cols > 1 || Y->cols > 1) {
+        fprintf(stderr, "linregress_fit_mat: expected shape mat (n, 1)  got X: (%ld, %ld) Y: {%ld, %ld}",
+                X->rows, X->cols, Y->rows, Y->cols);
+        exit(EXIT_FAILURE);
+    }
+
+    return linregress_fit(model, X->mat->data, Y->mat->data, X->rows);
+}
+
+double linregress_score_mat(LinearRegressionModel *model, Mat *x_test, Mat *y_test) {
+    if (x_test->cols > 1 || y_test->cols > 1) {
+        fprintf(stderr, "linregress_fit_mat: expected shape mat (n, 1)  got X: (%ld, %ld) Y: {%ld, %ld}",
+                x_test->rows, x_test->cols, y_test->rows, y_test->cols);
+        exit(EXIT_FAILURE);
+    }
+
+    return linregress_score(model, x_test->mat->data, y_test->mat->data, x_test->rows);
 }

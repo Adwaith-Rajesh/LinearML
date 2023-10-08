@@ -21,6 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <stddef.h>
 
+#include "ds/mat.h"
+
 typedef struct {
     // y = ax + b
     double slope;
@@ -52,5 +54,9 @@ double linregress_predict(LinearRegressionModel *model, double x);
 Score/test the linear regression model based on known x and y values
 */
 double linregress_score(LinearRegressionModel *model, double *x_test, double *y_test, size_t len);
+
+LinearRegressionModel *linregress_fit_mat(LinearRegressionModel *model, Mat *X, Mat *Y);
+
+double linregress_score_mat(LinearRegressionModel *model, Mat *x_test, Mat *y_test);
 
 #endif
