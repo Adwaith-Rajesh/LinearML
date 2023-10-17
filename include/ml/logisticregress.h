@@ -16,12 +16,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef ML_H
-#define ML_H
+#ifndef ML_LOGISTIC_REGRESS
+#define ML_LOGISTIC_REGRESS
 
 #include <gsl/gsl_vector.h>
 #include <stddef.h>
 
+#include "ds/array.h"
 #include "ds/mat.h"
 
 typedef struct {
@@ -33,28 +34,34 @@ typedef struct {
 Set the maximum amount of iterations (default 100)
 */
 void logregress_set_max_iter(size_t iter);
+
 /*
-Initialize the simple linear regression model
+Initialize the simple logistic regression model
 */
 LogisticRegressionModel *logregress_init();
 
 /*
-Free the linear regression model
+Free the logistic regression model
 */
 void logregress_free(LogisticRegressionModel *model);
 
 /*
-Fit the linear regression model with the values
+Fit the logistic regression model with the values
 */
 LogisticRegressionModel *logregress_fit(LogisticRegressionModel *model, Mat *X, Mat *Y);
 
 /*
-Predict new values with the linear regression model
+Predict new values with the logistic regression model
 */
-int logregress_predict(LogisticRegressionModel *model, double *x, size_t len);
+double logregress_predict(LogisticRegressionModel *model, double *x, size_t len);
 
 /*
-Score/test the linear regression model based on known x and y values
+returns an Array of predictions for multiple x
+*/
+Array *logregress_predict_many(LogisticRegressionModel *model, Mat *x);
+
+/*
+Score/test the logistic regression model based on known x and y values
 */
 double logregress_score(LogisticRegressionModel *model, Mat *x_test, Mat *y_test);
 
