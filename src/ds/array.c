@@ -7,11 +7,11 @@
 Array *arr_create(size_t size) {
     Array *new_arr = malloc_with_check(sizeof(Array));
     new_arr->size = size;
-    new_arr->arr = malloc_with_check(sizeof(float) * size);
+    new_arr->arr = malloc_with_check(sizeof(double) * size);
     return new_arr;
 }
 
-Array *arr_init(float *arr, size_t size) {
+Array *arr_init(double *arr, size_t size) {
     Array *new_arr = malloc_with_check(sizeof(Array));
     new_arr->size = size;
     new_arr->arr = arr;

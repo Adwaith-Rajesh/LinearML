@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 // A simple way to store the array and the size
-// for my use case the the array is float array
+// for my use case the the array is double array
 
 #ifndef LINEAR_ML_ARRAY_H
 #define LINEAR_ML_ARRAY_H
@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 typedef struct {
     size_t size;
-    float *arr;
+    double *arr;
 } Array;
 
 #define ARR_AT(i_arr, idx) ((i_arr)->arr[idx])
@@ -45,7 +45,7 @@ Creates an array using an existing C array and returns an Array
 
 you have to free it using arr_init_free
 */
-Array *arr_init(float *arr, size_t size);
+Array *arr_init(double *arr, size_t size);
 
 /*
 Frees an Array crated using arr_create
@@ -62,7 +62,7 @@ Display the given array
 */
 void arr_printp(Array *arr, int print_prec);
 
-typedef float (*ArrayMapFuncType)(float);
+typedef double (*ArrayMapFuncType)(double);
 
 /*
 Map a function over the given array and returns the same array
