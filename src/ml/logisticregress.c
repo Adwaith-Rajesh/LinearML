@@ -10,7 +10,7 @@
 #include "ds/mat.h"
 #include "utils/mem.h"
 
-#define RATE 0.1
+#define RATE 0.01
 size_t MAX_ITER = 100;
 
 void logregress_set_max_iter(size_t iter) {
@@ -42,19 +42,20 @@ static double _sigmoid(double x) {
     return exp(x) / (1 + exp(x));
 }
 
-static double _loss(gsl_vector *y_pred, gsl_vector *y_true) {
-    if (y_pred->size != y_true->size) {
+static double _loss(Mat *y_pred, Mat *y_true) {
+    if (y_pred->rows != y_true->rows) {
         fprintf(stderr, "logregress::_loss[internal error] vector sizes for loss computation mismatch\n");
         exit(EXIT_FAILURE);
     }
 
     double sum = 0.0;
-    for (size_t i = 0; i < y_pred->size; i++) {
-        sum += (gsl_vector_get(y_true, i) * log(ls_vector_get(y_pred, i) + 1e-9) +
-                (i - gsl_vector_get(y_true, i) * log(i - gsl_vector_get(y_pred, i) + 1e-9)));
+    for (size_t i = 0; i < y_pred->rows; i++) {
+        sum += (mat_get(y_true, i, 0) * log(mat_get(y_pred, i, 0) + 1e-4) +
+                (i - mat_get(y_true, i, 0) * log(i - mat_get(y_pred, i, 0) + 1e-4)));
     }
 
-    return -(sum / y_pred->size);
+    double loss = -(sum / y_pred->rows);
+    return loss;
 }
 
 static void _get_gradient(Mat *x, Mat *y_pred, Mat *y_true, double *grad_bias, gsl_vector *grad_weights) {
@@ -95,7 +96,34 @@ static void _update_parameters(gsl_vector *weights, double *bias, gsl_vector *er
     }
 }
 
-// TODO: something is wrong with the gradient descent
+static void _do_logregress_fit(Mat *x, Mat *y, gsl_vector *m_weights, double *m_bias) {
+    size_t n_cols = x->cols;
+    size_t n_rows = x->rows;
+
+    double error_b;
+    gsl_vector *dot_vec = gsl_vector_alloc(n_rows);
+    gsl_vector *error_w = gsl_vector_alloc(n_cols);
+    Mat *y_pred = mat_create(y->rows, y->cols);
+
+    gsl_blas_dgemv(CblasNoTrans, 1.0, x->mat, m_weights, 0.0, dot_vec);
+    gsl_vector_add_constant(dot_vec, *m_bias);
+
+    // predictions
+    for (size_t v = 0; v < n_rows; v++) {
+        double sig = _sigmoid(gsl_vector_get(dot_vec, v));
+        // printf("sig: %lf\n", sig);
+        mat_set(y_pred, v, 0, sig);
+    }
+
+    double loss = _loss(y_pred, y);
+    _get_gradient(x, y_pred, y, &error_b, error_w);
+    _update_parameters(m_weights, m_bias, error_w, error_b);
+
+    gsl_vector_free(dot_vec);
+    gsl_vector_free(error_w);
+    mat_free(y_pred);
+}
+
 LogisticRegressionModel *logregress_fit(LogisticRegressionModel *model, Mat *X, Mat *Y) {
     if (X == NULL || Y == NULL) {
         fprintf(stderr, "logregress: X or Y is NULL\n");
@@ -107,46 +135,22 @@ LogisticRegressionModel *logregress_fit(LogisticRegressionModel *model, Mat *X, 
         exit(EXIT_FAILURE);
     }
 
-    // size_t n_cols = X->cols;
-    // size_t n_rows = X->rows;
-    // gsl_vector *weights = gsl_vector_calloc(n_cols);
-    // double bias = 0.0;
+    gsl_vector *weights = gsl_vector_calloc(X->cols);
+    double bias = 0.0;
 
-    // gsl_vector *curr_row = gsl_vector_alloc(n_cols);
-    // double alpha = 0.01;  // learning rate
-    // double pred, err;
-    // size_t i = -1;
-
-    // for (size_t j = 0; j < MAX_ITER; j++) {
-    //     i = ((i + 1) % n_rows);
-    //     gsl_matrix_get_row(curr_row, X->mat, i);
-    //     gsl_blas_ddot(weights, curr_row, &pred);
-
-    //     pred = _sigmoid(pred + bias);
-    //     err = gsl_matrix_get(Y->mat, i, 0) - pred;
-
-    //     // update the bias and the weights
-    //     bias = bias - (alpha * err * pred * (1 - pred));  // * 1.0
-
-    //     // weights
-    //     double curr_w;
-    //     for (size_t k = 0; k < n_cols; k++) {
-    //         curr_w = gsl_vector_get(weights, k);
-    //         curr_w = curr_w - (alpha * err * pred * (1 - pred) * gsl_matrix_get(X->mat, i, k));
-    //         gsl_vector_set(weights, k, curr_w);
-    //     }
-    // }
-    // gsl_vector_free(curr_row);
-    // model->weights = weights;
-    // model->bias = bias;
-    // return model;
+    for (size_t e = 0; e < MAX_ITER; e++) {
+        _do_logregress_fit(X, Y, weights, &bias);
+    }
+    model->weights = weights;
+    model->bias = bias;
+    return model;
 }
 
 double logregress_predict(LogisticRegressionModel *model, double *x, size_t len) {
     gsl_vector_view vv = gsl_vector_view_array(x, len);
     double dot;
     gsl_blas_ddot(model->weights, &vv.vector, &dot);
-    return ((dot + model->bias) > 0.5) ? 1 : 0;
+    return (_sigmoid(dot + model->bias) > 0.5) ? 1 : 0;
 }
 
 Array *logregress_predict_many(LogisticRegressionModel *model, Mat *x) {
