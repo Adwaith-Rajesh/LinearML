@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "ds/mat.h"
 
 typedef struct {
-    double intercept;
+    double bias;
     gsl_vector *weights;
 } LogisticRegressionModel;
 
