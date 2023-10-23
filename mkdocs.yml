@@ -28,6 +28,7 @@ nav:
   - Machine Learning:
     - Linear Regression: ml/linregress.md
     - Multiple Linear Regression: ml/multiregress.md
+    - Logistic Regression: ml/logregress.md
   - Parsers:
     - CSV: parsers/csv.md
 
