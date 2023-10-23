@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef VEC_H
-#define VEC_H
+#ifndef LINEAR_ML_VEC_H
+#define LINEAR_ML_VEC_H
 
 typedef struct {
     int dim;

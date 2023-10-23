@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef MAT_H
-#define MAT_H
+#ifndef LINEAR_ML_MAT_H
+#define LINEAR_ML_MAT_H
 
 #include <gsl/gsl_matrix.h>
 #include <stddef.h>

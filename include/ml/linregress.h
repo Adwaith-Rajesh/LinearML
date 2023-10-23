@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef ML_H
-#define ML_H
+#ifndef LINEAR_REGRESS_H
+#define LINEAR_REGRESS_H
 
 #include <stddef.h>
 
