@@ -130,4 +130,46 @@ Returns a copy of the given matrix
 */
 Mat *mat_cpy(Mat *mat);
 
+#ifdef INCLUDE_MAT_CONVERSIONS
+#include <gsl/gsl_vector.h>
+
+#include "ds/array.h"
+
+/*
+Get a matrix col as an Array
+*/
+
+Array *mat_get_col_arr(Mat *mat, size_t col) {
+    gsl_vector *col_vec = gsl_vector_alloc(mat->rows);
+    Array *arr = arr_create(mat->rows);
+
+    gsl_matrix_get_col(col_vec, mat->mat, col);
+
+    for (size_t i = 0; i < col_vec->size; i++) {
+        arr->arr[i] = col_vec->data[i];
+    }
+
+    gsl_vector_free(col_vec);
+    return arr;
+}
+
+/*
+Get a matrix  row as an Array
+*/
+Array *mat_get_row_arr(Mat *mat, size_t row) {
+    gsl_vector *row_vec = gsl_vector_alloc(mat->cols);
+    Array *arr = arr_create(mat->cols);
+
+    gsl_matrix_get_row(row_vec, mat->mat, row);
+
+    for (size_t i = 0; i < row_vec->size; i++) {
+        arr->arr[i] = row_vec->data[i];
+    }
+
+    gsl_vector_free(row_vec);
+    return arr;
+}
+
+#endif
+
 #endif
