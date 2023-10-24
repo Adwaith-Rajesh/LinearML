@@ -88,3 +88,17 @@ Mat *csv_get_mat(CSV *csv, int *cols, size_t c_size) {
 
     return new_mat;
 }
+
+Mat *csv_get_mat_slice(CSV *csv, Slice slice) {
+    size_t n_cols = slice.upper - slice.lower;
+    Mat *new_mat = mat_create(csv->values->rows, n_cols);
+
+    size_t new_mat_col = 0;
+    for (size_t i = 0; i < n_cols; i++) {
+        for (size_t r = 0; r < csv->values->rows; r++) {
+            mat_set(new_mat, r, new_mat_col, mat_get(csv->values, r, slice.lower + i));
+        }
+        new_mat_col++;
+    }
+    return new_mat;
+}

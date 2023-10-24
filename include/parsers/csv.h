@@ -53,6 +53,11 @@ typedef struct {
     char delim;
 } CSV;
 
+typedef struct {
+    size_t lower;
+    size_t upper;  // non inclusive
+} Slice;
+
 /*
 Initialize the CSV reader/parser
 
@@ -79,5 +84,11 @@ CSV *csv_parse(CSV *csv, const char *filename);
 Returns a new Mat with only the selected cols
 */
 Mat *csv_get_mat(CSV *csv, int *rows, size_t c_size);
+
+/*
+Returns a new Mat with only the selected cols using Slice type
+*/
+
+Mat *csv_get_mat_slice(CSV *csv, Slice slice);
 
 #endif
