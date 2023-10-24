@@ -55,6 +55,13 @@ Score/test the linear regression model based on known x and y values
 */
 double linregress_score(LinearRegressionModel *model, double *x_test, double *y_test, size_t len);
 
+/*
+Display the model details
+
+fmt - the format string used to print the double values
+*/
+void linregress_print(LinearRegressionModel *model);
+
 LinearRegressionModel *linregress_fit_mat(LinearRegressionModel *model, Mat *X, Mat *Y);
 
 double linregress_score_mat(LinearRegressionModel *model, Mat *x_test, Mat *y_test);

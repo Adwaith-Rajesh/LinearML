@@ -81,3 +81,7 @@ double linregress_score_mat(LinearRegressionModel *model, Mat *x_test, Mat *y_te
 
     return linregress_score(model, x_test->mat->data, y_test->mat->data, x_test->rows);
 }
+
+void linregress_print(LinearRegressionModel *model) {
+    printf("LinearRegressionModel(slope: %.7lf, intercept: %.7lf, rvalue: %.7lf)\n", model->slope, model->intercept, model->rvalue);
+}

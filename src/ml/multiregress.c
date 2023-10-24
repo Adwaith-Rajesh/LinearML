@@ -87,4 +87,8 @@ double mlinregress_predict(MLinearRegressionModel *model, double *x_vals, size_t
     return pred_val;
 }
 
-// TODO: Score the model
+void mlinregress_print(MLinearRegressionModel *model) {
+    printf("MLinearRegressionModel(intercept: %lf, coefs: %p)\n", model->intercept, model->coefs);
+    printf("coefs\n");
+    mat_printp(model->coefs, 7);
+}

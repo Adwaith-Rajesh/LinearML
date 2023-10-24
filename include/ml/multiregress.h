@@ -55,8 +55,10 @@ Predict new values with the multiple regression model
 double mlinregress_predict(MLinearRegressionModel *model, double *x_vals, size_t len);
 
 /*
-Score/test the multiple linear regression model based on known x and y values
+Display the model details
+
+fmt - the format string used to print the double values
 */
-// TODO: score the model
+void mlinregress_print(MLinearRegressionModel *model);
 
 #endif
