@@ -20,6 +20,7 @@ void logregress_set_max_iter(size_t iter) {
 LogisticRegressionModel *logregress_init() {
     LogisticRegressionModel *model = malloc_with_check(sizeof(LogisticRegressionModel));
     model->bias = 0.0;
+    model->loss = 0.0;
     model->weights = NULL;
     return model;
 }
@@ -50,8 +51,8 @@ static double _loss(Mat *y_pred, Mat *y_true) {
 
     double sum = 0.0;
     for (size_t i = 0; i < y_pred->rows; i++) {
-        sum += (mat_get(y_true, i, 0) * log(mat_get(y_pred, i, 0) + 1e-4) +
-                (i - mat_get(y_true, i, 0) * log(i - mat_get(y_pred, i, 0) + 1e-4)));
+        sum += (mat_get(y_true, i, 0) * log(mat_get(y_pred, i, 0) + 1e-9) +
+                (1 - mat_get(y_true, i, 0) * log(1 - mat_get(y_pred, i, 0) + 1e-9)));
     }
 
     double loss = -(sum / y_pred->rows);
@@ -96,7 +97,7 @@ static void _update_parameters(gsl_vector *weights, double *bias, gsl_vector *er
     }
 }
 
-static void _do_logregress_fit(Mat *x, Mat *y, gsl_vector *m_weights, double *m_bias) {
+static void _do_logregress_fit(Mat *x, Mat *y, gsl_vector *m_weights, double *m_bias, double *m_loss) {
     size_t n_cols = x->cols;
     size_t n_rows = x->rows;
 
@@ -115,7 +116,7 @@ static void _do_logregress_fit(Mat *x, Mat *y, gsl_vector *m_weights, double *m_
         mat_set(y_pred, v, 0, sig);
     }
 
-    double loss = _loss(y_pred, y);
+    *m_loss = _loss(y_pred, y);
     _get_gradient(x, y_pred, y, &error_b, error_w);
     _update_parameters(m_weights, m_bias, error_w, error_b);
 
@@ -137,12 +138,14 @@ LogisticRegressionModel *logregress_fit(LogisticRegressionModel *model, Mat *X, 
 
     gsl_vector *weights = gsl_vector_calloc(X->cols);
     double bias = 0.0;
+    double loss = 0.0;
 
     for (size_t e = 0; e < MAX_ITER; e++) {
-        _do_logregress_fit(X, Y, weights, &bias);
+        _do_logregress_fit(X, Y, weights, &bias, &loss);
     }
     model->weights = weights;
     model->bias = bias;
+    model->loss = loss;
     return model;
 }
 
@@ -166,4 +169,10 @@ Array *logregress_predict_many(LogisticRegressionModel *model, Mat *x) {
 
     gsl_vector_free(curr_row);
     return pred_array;
+}
+
+void logregress_print(LogisticRegressionModel *model) {
+    printf("LogisticRegressionModel(bias: %.7lf, loss: %.7lf, weights: %p)\n", model->bias, model->loss, model->weights);
+    printf("weights: \n");
+    gsl_vector_fprintf(stdout, model->weights, "%.7lf");
 }

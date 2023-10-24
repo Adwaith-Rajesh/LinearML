@@ -27,6 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 typedef struct {
     double bias;
+    double loss;
     gsl_vector *weights;
 } LogisticRegressionModel;
 
@@ -61,8 +62,10 @@ returns an Array of predictions for multiple x
 Array *logregress_predict_many(LogisticRegressionModel *model, Mat *x);
 
 /*
-Score/test the logistic regression model based on known x and y values
+Display the model details
+
+fmt - the format string used to print the double values
 */
-double logregress_score(LogisticRegressionModel *model, Mat *x_test, Mat *y_test);
+void logregress_print(LogisticRegressionModel *model);
 
 #endif
