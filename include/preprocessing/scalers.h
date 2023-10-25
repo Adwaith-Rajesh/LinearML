@@ -32,7 +32,7 @@ typedef struct {
     int with_mean;
     int with_std;
     size_t _n_cols;
-    struct _SSData *col_vals  // mean, std for each cols
+    struct _SSData *col_vals;  // mean, std for each cols
 } StandardScaler;
 
 /*
@@ -48,14 +48,14 @@ StandardScaler *standard_scaler_init() {
 }
 
 /*
-Fit the Scales with the data
+Fit the Scaler with the data
 */
 StandardScaler *standard_scaler_fit(StandardScaler *scaler, Mat *data);
 
 /*
-Transform the dataset
+Transform the dataset,returns the transformed data
 */
-void standard_scaler_transform(StandardScaler *scaler, Mat *data);
+Mat *standard_scaler_transform(StandardScaler *scaler, Mat *data);
 
 /*
 Free the Standard Scaler
