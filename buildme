@@ -22,6 +22,7 @@ ML_DIR = SRC_DIR + '/ml'
 STATS_DIR = SRC_DIR + '/stats'
 PARSERS_DIR = SRC_DIR + '/parsers'
 MODEL_DIR = SRC_DIR + '/model'
+PREPROCESSING_DIR = SRC_DIR + '/preprocessing'
 
 files_to_compile = [
     f'f:{UTILS_DIR}/*.c',
@@ -29,9 +30,11 @@ files_to_compile = [
     f'f:{STATS_DIR}/*.c',
     f'f:{DS_DIR}/*.c',
     f'f:{PARSERS_DIR}/*.c',
-    f'f:{MODEL_DIR}/*.c'
+    f'f:{MODEL_DIR}/*.c',
+    f'f:{PREPROCESSING_DIR}/*.c',
 ]
-header_files = list(map(lambda x: f'f:{x}', get_files_in_dir('./include/**/*.h', recurse=True)))
+header_files = list(
+    map(lambda x: f'f:{x}', get_files_in_dir('./include/**/*.h', recurse=True)))
 
 
 cr = CommandRunner(print_cmd_sep=False)
