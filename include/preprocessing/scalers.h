@@ -19,4 +19,47 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef PREPROCESSING_SCALERS_H
 #define PREPROCESSING_SCALERS_H
 
+#include <stddef.h>
+
+#include "ds/mat.h"
+
+struct _SSData {
+    double mean;
+    double std;
+};
+
+typedef struct {
+    int with_mean;
+    int with_std;
+    size_t _n_cols;
+    struct _SSData *col_vals  // mean, std for each cols
+} StandardScaler;
+
+/*
+initialize the standard scaler with parameters
+*/
+StandardScaler *standard_scaler_initp(int with_mean, int with_std);
+
+/*
+Initialize the standard scalers with default parameters
+*/
+StandardScaler *standard_scaler_init() {
+    return standard_scaler_initp(1, 1);
+}
+
+/*
+Fit the Scales with the data
+*/
+StandardScaler *standard_scaler_fit(StandardScaler *scaler, Mat *data);
+
+/*
+Transform the dataset
+*/
+void standard_scaler_transform(StandardScaler *scaler, Mat *data);
+
+/*
+Free the Standard Scaler
+*/
+void standard_scaler_free(StandardScaler *scaler);
+
 #endif
