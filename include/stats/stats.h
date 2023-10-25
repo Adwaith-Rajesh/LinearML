@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef LINEAR_ML_STATS_H
-#define LINEAR_ML_STATS_H
+#ifndef STATS_STATS_H
+#define STATS_STATS_H
 
 #include <stddef.h>
 
