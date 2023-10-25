@@ -39,8 +39,8 @@ CSV for LinearML (remove the header, and replace all string vals)
 Here 1 represents a yes and 0 a no
 */
 
-#ifndef INCLUDE_LINEAR_ML_CSV_H
-#define INCLUDE_LINEAR_ML_CSV_H
+#ifndef PARSERS_CSV_H
+#define PARSERS_CSV_H
 
 #include <stddef.h>
 

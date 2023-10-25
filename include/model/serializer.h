@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_LINEAR_ML_SERIALIZER_H
-#define INCLUDE_LINEAR_ML_SERIALIZER_H
+#ifndef MODEL_SERIALIZER_H
+#define MODEL_SERIALIZER_H
 
 typedef enum {
     LinearRegression,

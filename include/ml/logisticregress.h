@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef ML_LOGISTIC_REGRESS
-#define ML_LOGISTIC_REGRESS
+#ifndef ML_LOGISTICREGRESS_H
+#define ML_LOGISTICREGRESS_H
 
 #include <gsl/gsl_vector.h>
 #include <stddef.h>

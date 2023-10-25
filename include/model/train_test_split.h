@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef INCLUDE_LINEAR_ML_TRAIN_TEST_SPLIT
-#define INCLUDE_LINEAR_ML_TRAIN_TEST_SPLIT
+#ifndef MODEL_TRAIN_TEST_SPLIT
+#define MODEL_TRAIN_TEST_SPLIT
 
 #include "ds/mat.h"
 

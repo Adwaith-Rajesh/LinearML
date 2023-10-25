@@ -19,8 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // A simple way to store the array and the size
 // for my use case the the array is double array
 
-#ifndef LINEAR_ML_ARRAY_H
-#define LINEAR_ML_ARRAY_H
+#ifndef DS_ARRAY_H
+#define DS_ARRAY_H
 
 #include <stddef.h>
 
