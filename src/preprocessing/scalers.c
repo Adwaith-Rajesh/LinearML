@@ -79,3 +79,64 @@ void standard_scaler_free(StandardScaler *scaler) {
     }
     free(scaler);
 }
+
+// ------------------------------------------------------------------------------
+// min-max scaler
+
+MinMaxScaler *minmax_scaler_initp(double new_min, double new_max) {
+    MinMaxScaler *new_scaler = malloc_with_check(sizeof(MinMaxScaler));
+    new_scaler->new_min = new_min;
+    new_scaler->new_max = new_max;
+    new_scaler->col_vals = 0;
+    new_scaler->col_vals = NULL;
+    return new_scaler;
+}
+
+MinMaxScaler *minmax_scaler_fit(MinMaxScaler *scaler, Mat *data) {
+    scaler->_n_cols = data->cols;
+    scaler->col_vals = malloc_with_check(sizeof(struct _MMData) * data->cols);
+
+    gsl_vector *curr_col = gsl_vector_alloc(data->rows);
+
+    for (size_t i = 0; i < data->cols; i++) {
+        gsl_matrix_get_col(curr_col, data->mat, i);
+        scaler->col_vals[i].col_max = gsl_vector_max(curr_col);
+        scaler->col_vals[i].col_min = gsl_vector_min(curr_col);
+    }
+
+    gsl_vector_free(curr_col);
+    return scaler;
+}
+
+static double _scale_x_minmax(double x, double col_min, double col_max, double new_min, double new_max) {
+    double x_std = (x - col_min) / (col_max - col_min);
+    return x_std * (new_max - new_min) + new_min;
+}
+
+Mat *minmax_scaler_transform(MinMaxScaler *scaler, Mat *data) {
+    if (data->cols != scaler->_n_cols) {
+        fprintf(stderr, "data col size does not match with scalers col size\n");
+        exit(EXIT_FAILURE);
+    }
+
+    double new_min = scaler->new_min;
+    double new_max = scaler->new_max;
+
+    for (size_t c = 0; c < data->cols; c++) {
+        double col_min = scaler->col_vals[c].col_min;
+        double col_max = scaler->col_vals[c].col_max;
+
+        for (size_t r = 0; r < data->rows; r++) {
+            mat_set(data, r, c, _scale_x_minmax(mat_get(data, r, c), col_min, col_max, new_min, new_max));
+        }
+    }
+    return data;
+}
+
+void minmax_scaler_free(MinMaxScaler *scaler) {
+    if (scaler == NULL) return;
+    if (scaler->col_vals != NULL) {
+        free(scaler->col_vals);
+    }
+    free(scaler);
+}

@@ -68,16 +68,16 @@ void standard_scaler_free(StandardScaler *scaler);
 // ------------------------------------------------------------------------------
 // min-max Scaler
 
-struct {
+struct _MMData {
     double col_min;
     double col_max;
-} _MMData;
+};
 
 typedef struct {
     double new_min;
     double new_max;
     size_t _n_cols;
-    struct _MMData *cols_vals;  // min and max for each column
+    struct _MMData *col_vals;  // min and max for each column
 } MinMaxScaler;
 
 /*
