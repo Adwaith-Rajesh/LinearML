@@ -23,6 +23,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "ds/mat.h"
 
+// ------------------------------------------------------------------------------
+// Standard Scaler
+
 struct _SSData {
     double mean;
     double std;
@@ -41,7 +44,7 @@ initialize the standard scaler with parameters
 StandardScaler *standard_scaler_initp(int with_mean, int with_std);
 
 /*
-Initialize the standard scalers with default parameters
+Initialize the standard scalers with default parameters [1, 1]
 */
 StandardScaler *standard_scaler_init() {
     return standard_scaler_initp(1, 1);
@@ -61,5 +64,47 @@ Mat *standard_scaler_transform(StandardScaler *scaler, Mat *data);
 Free the Standard Scaler
 */
 void standard_scaler_free(StandardScaler *scaler);
+
+// ------------------------------------------------------------------------------
+// min-max Scaler
+
+struct {
+    double col_min;
+    double col_max;
+} _MMData;
+
+typedef struct {
+    double new_min;
+    double new_max;
+    size_t _n_cols;
+    struct _MMData *cols_vals;  // min and max for each column
+} MinMaxScaler;
+
+/*
+Initialize the minmax scaler with no default parameters
+*/
+MinMaxScaler *minmax_scaler_initp(double new_min, double new_max);
+
+/*
+Initialize the minmax scaler with default values [0, 1]
+*/
+MinMaxScaler *minmax_scalers_init() {
+    return minmax_scaler_initp(0, 1);
+}
+
+/*
+Fit the scaler with the data
+*/
+MinMaxScaler *minmax_scaler_fit(MinMaxScaler *scaler, Mat *data);
+
+/*
+Transform the data, returns the transformed dataset
+*/
+Mat *minmax_scaler_transform(MinMaxScaler *scaler, Mat *data);
+
+/*
+Free the MinMaxScaler
+*/
+void minmax_scaler_free(MinMaxScaler *scaler);
 
 #endif
