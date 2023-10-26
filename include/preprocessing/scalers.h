@@ -88,7 +88,7 @@ MinMaxScaler *minmax_scaler_initp(double new_min, double new_max);
 /*
 Initialize the minmax scaler with default values [0, 1]
 */
-MinMaxScaler *minmax_scalers_init() {
+MinMaxScaler *minmax_scaler_init() {
     return minmax_scaler_initp(0, 1);
 }
 
