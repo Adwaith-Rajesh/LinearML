@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "ds/mat.h"
+#include "ds/str.h"
 #include "utils/mem.h"
 
 CSV *csv_init(size_t rows, size_t cols, char delim) {
@@ -61,7 +62,11 @@ CSV *csv_parse(CSV *csv, const char *filename) {
     size_t c = 0;
 
     while (fscanf(fp, scanset, item, &curr_delim) != EOF) {
-        mat_set(csv->values, r, c, strtod(item, NULL));
+        if (item[0] == '"' || item[0] == '\'') {
+            mat_set(csv->values, r, c, str_charp_hash(item));
+        } else {
+            mat_set(csv->values, r, c, strtod(item, NULL));
+        }
         c++;
 
         if (curr_delim == '\n') {
