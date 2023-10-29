@@ -24,7 +24,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <stddef.h>
 
-#define MAX_STR_LEN 32  // max string len we allow
+#define MAX_STR_LEN 16  // max string len we allow
 
 typedef struct {
     char str[MAX_STR_LEN];  // must be null terminated char*
@@ -39,7 +39,7 @@ unsigned long str_charp_hash(const char *str);
 /*
 Create a Str type for a char* (must be null terminated)
 */
-Str *str_create_from_charp(const char *str);
+Str *str_create_from_charp(char *str);
 
 /*
 Display the Str type
