@@ -28,13 +28,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 typedef struct {
     char str[MAX_STR_LEN];  // must be null terminated char*
-    unsigned long hash;     // djb2 hash for the given string
+    double hash;            // djb2 hash for the given string
 } Str;
+
+// easy way to keep track of the original string and the associated
+// has. A "not a hashtable" for Str types
+typedef struct _str_list {
+    Str *str;
+    struct _str_list *next;
+} StrList;
 
 /*
 Get the djb2 hash of the string
+
+return values is a double so as to be compatible with the whole package
 */
-unsigned long str_charp_hash(const char *str);
+double str_charp_hash(const char *str);
 
 /*
 Create a Str type for a char* (must be null terminated)
@@ -50,5 +59,32 @@ void str_print(Str *str);
 Free the Str
 */
 void str_free(Str *str);
+
+/*
+Initialize the StrList
+*/
+StrList *str_list_create();
+
+/*
+Display the StrList
+*/
+void str_list_print(StrList *str_list);
+
+/*
+Add a new Str to StrList and returns the original StrList
+
+pos is set to the index position of the added Str. (can be NULL)
+*/
+StrList *str_list_add(StrList *str_list, Str *str, size_t *pos);
+
+/*
+Get the Str of a given hash
+*/
+Str *str_list_get(StrList *str_list, double hash);
+
+/*
+Free the StrList
+*/
+void str_list_free(StrList *str_list);
 
 #endif
