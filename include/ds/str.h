@@ -87,4 +87,9 @@ Free the StrList
 */
 void str_list_free(StrList *str_list);
 
+/*
+Free StrList along with all the Str it holds
+*/
+void str_list_free_all(StrList *str_list);
+
 #endif
