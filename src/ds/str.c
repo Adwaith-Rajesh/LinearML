@@ -65,9 +65,10 @@ StrList *str_list_add(StrList *str_list, Str *str, size_t *pos) {
 
     StrList *new_node = str_list_create();
     new_node->str = str;
+    npos++;
 
     while (temp->next != NULL) {
-        pos++;
+        npos++;
         temp = temp->next;
     }
 
