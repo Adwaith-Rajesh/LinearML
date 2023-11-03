@@ -37,7 +37,6 @@ diff:
 
 .PHONY: clean
 clean:
-	echo $(HEADER_FILES)
 	rm -rf $(BUILD_DIR) $(DEPFILES) $(OBJECTS)
 
 # include the dependencies
