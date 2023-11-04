@@ -37,6 +37,15 @@ void csv_print(CSV *csv) {
     mat_print(csv->values);
 }
 
+static int _hash_in_gsl_mat(gsl_matrix *mat, double hash) {
+    for (size_t i = 0; i < mat->size1 * mat->size2; i++) {
+        if (mat->data[i] == hash) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 CSV *csv_parse(CSV *csv, const char *filename, StrList *str_list) {
     // the parsing is done using scansets
 
@@ -65,13 +74,16 @@ CSV *csv_parse(CSV *csv, const char *filename, StrList *str_list) {
     // TODO: handle null values
     while (fscanf(fp, scanset, item, &curr_delim) != EOF) {
         if (item[0] == '"' || item[0] == '\'') {
-            if (str_list != NULL) {
+            double _hash = str_charp_hash(item);
+
+            if (str_list != NULL && !_hash_in_gsl_mat(csv->values->mat, _hash)) {
                 new_str = str_create_from_charp(item);
                 str_list_add(str_list, new_str, NULL);
-                mat_set(csv->values, r, c, new_str->hash);
+                mat_set(csv->values, r, c, _hash);
             } else {
-                mat_set(csv->values, r, c, str_charp_hash(item));
+                mat_set(csv->values, r, c, _hash);
             }
+
         } else {
             mat_set(csv->values, r, c, strtod(item, NULL));
         }
