@@ -45,6 +45,7 @@ Here 1 represents a yes and 0 a no
 #include <stddef.h>
 
 #include "ds/mat.h"
+#include "ds/str.h"
 
 typedef struct {
     size_t cols;
@@ -77,8 +78,11 @@ void csv_print(CSV *csv);
 
 /*
 Parse the given CSV file
+
+if a StrList is provided the strings will be automatically added to the list
+
 */
-CSV *csv_parse(CSV *csv, const char *filename);
+CSV *csv_parse(CSV *csv, const char *filename, StrList *str_list);
 
 /*
 Returns a new Mat with only the selected cols

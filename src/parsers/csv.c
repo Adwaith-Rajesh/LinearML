@@ -37,7 +37,7 @@ void csv_print(CSV *csv) {
     mat_print(csv->values);
 }
 
-CSV *csv_parse(CSV *csv, const char *filename) {
+CSV *csv_parse(CSV *csv, const char *filename, StrList *str_list) {
     // the parsing is done using scansets
 
     const int MAX_SCANSET = 4096;
@@ -60,10 +60,18 @@ CSV *csv_parse(CSV *csv, const char *filename) {
 
     size_t r = 0;
     size_t c = 0;
+    Str *new_str;
 
+    // TODO: handle null values
     while (fscanf(fp, scanset, item, &curr_delim) != EOF) {
         if (item[0] == '"' || item[0] == '\'') {
-            mat_set(csv->values, r, c, str_charp_hash(item));
+            if (str_list != NULL) {
+                new_str = str_create_from_charp(item);
+                str_list_add(str_list, new_str, NULL);
+                mat_set(csv->values, r, c, new_str->hash);
+            } else {
+                mat_set(csv->values, r, c, str_charp_hash(item));
+            }
         } else {
             mat_set(csv->values, r, c, strtod(item, NULL));
         }
